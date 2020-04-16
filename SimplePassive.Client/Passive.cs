@@ -39,5 +39,19 @@ namespace SimplePassive.Client
         }
 
         #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Command that toggles the passive mode activation of the player.
+        /// </summary>
+        [Command("togglepassive")]
+        public void TogglePassiveCommand()
+        {
+            Debug.WriteLine($"Asking server to set Passive Activation to {!localActivation}");
+            TriggerServerEvent("simplepassive:changeActivation", !localActivation);
+        }
+
+        #endregion
     }
 }
