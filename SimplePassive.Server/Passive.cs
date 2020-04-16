@@ -61,5 +61,30 @@ namespace SimplePassive.Server
         }
 
         #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Command that toggles the passive mode activation of the player.
+        /// </summary>
+        [Command("togglepassive")]
+        public void TogglePassiveCommand(int source, List<object> arguments, string raw)
+        {
+            // If the source is the Console or RCON, return
+            if (source < 1)
+            {
+                Debug.WriteLine("This command can only be used by players on the server");
+                return;
+            }
+
+            // Get the activation of the player, but inverted
+            bool oposite = !GetPlayerActivation(source.ToString());
+            // Save it and send it to everyone
+            activations[source.ToString()] = oposite;
+            TriggerClientEvent("simplepassive:activationChanged", source.ToString(), oposite);
+            Debug.WriteLine($"Player {source} set it's activation to {oposite}");
+        }
+
+        #endregion
     }
 }

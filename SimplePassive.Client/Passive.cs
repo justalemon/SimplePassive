@@ -35,21 +35,7 @@ namespace SimplePassive.Client
         {
             // Just save the activation of the player
             activations[handle] = activation;
-            Debug.WriteLine($"Passive Activation of {handle} set to {activation}");
-        }
-
-        #endregion
-
-        #region Commands
-
-        /// <summary>
-        /// Command that toggles the passive mode activation of the player.
-        /// </summary>
-        [Command("togglepassive")]
-        public void TogglePassiveCommand()
-        {
-            Debug.WriteLine($"Asking server to set Passive Activation to {!localActivation}");
-            TriggerServerEvent("simplepassive:changeActivation", !localActivation);
+            Debug.WriteLine($"Received Passive Activation of {handle} ({activation})");
         }
 
         #endregion
