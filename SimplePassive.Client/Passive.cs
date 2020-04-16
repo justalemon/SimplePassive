@@ -35,6 +35,7 @@ namespace SimplePassive.Client
         {
             // Just save the activation of the player
             activations[handle] = activation;
+            Debug.WriteLine($"Passive Activation of {handle} set to {activation}");
         }
 
         #endregion

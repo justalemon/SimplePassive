@@ -35,6 +35,7 @@ namespace SimplePassive.Server
                 activations[player.Handle] = activation;
                 // And send it to all of the players
                 TriggerClientEvent("simplepassive:activationChanged", player.Handle, activation);
+                Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
             }
         }
 
