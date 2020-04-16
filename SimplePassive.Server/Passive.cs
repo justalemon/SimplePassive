@@ -39,25 +39,38 @@ namespace SimplePassive.Server
 
         #endregion
 
-        #region Network Events
+        #region Constructor
+
+        public Passive()
+        {
+            Exports.Add("setPlayerActivation", new Func<int, bool, bool>(SetPlayerActivation));
+        }
+
+        #endregion
+
+        #region Export
 
         /// <summary>
-        /// Event triggered when a player requests to change the passive activation of itself.
+        /// Sets the Passive Mode activation of a player.
         /// </summary>
-        /// <param name="player">The player that wants to change the activation.</param>
-        /// <param name="activation">The new activation status that the player wants.</param>
-        [EventHandler("simplepassive:changeActivation")]
-        public void ChangeActivation([FromSource]Player player, bool activation)
+        /// <param name="player">The target player.</param>
+        /// <param name="activation">The new activation status.</param>
+        public bool SetPlayerActivation(int id, bool activation)
         {
-            // If the player is allowed to change the passive mode of itself
-            if (API.IsPlayerAceAllowed(player.Handle, "simplepassive.changeself"))
+            // Try to get the player
+            Player player = Players[id];
+            // If is not valid, return
+            if (player == null)
             {
-                // Save the activation
-                activations[player.Handle] = activation;
-                // And send it to all of the players
-                TriggerClientEvent("simplepassive:activationChanged", player.Handle, activation);
-                Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
+                return false;
             }
+
+            // Otherwise, save the new activation
+            activations[player.Handle] = activation;
+            // And send it to everyone
+            TriggerClientEvent("simplepassive:activationChanged", player, activation);
+            Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
+            return true;
         }
 
         #endregion
