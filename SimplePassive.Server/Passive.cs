@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using System;
 using System.Collections.Generic;
 
 namespace SimplePassive.Server
@@ -15,6 +16,26 @@ namespace SimplePassive.Server
         /// The activation of passive mode for specific players.
         /// </summary>
         public readonly Dictionary<string, bool> activations = new Dictionary<string, bool>();
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// If the local player has passive enabled or disabled.
+        /// </summary>
+        public bool DefaultActivation => Convert.ToBoolean(API.GetConvarInt("simplepassive_default", 0));
+
+        #endregion
+
+        #region Tools
+
+        /// <summary>
+        /// Gets the activation of passive mode for a specific player.
+        /// </summary>
+        /// <param name="player">The player to check.</param>
+        /// <returns>True, False or the default value.</returns>
+        public bool GetPlayerActivation(string player) => activations.ContainsKey(player) ? activations[player] : DefaultActivation;
 
         #endregion
 
