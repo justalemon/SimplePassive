@@ -90,12 +90,18 @@ namespace SimplePassive.Server
                 return;
             }
 
-            // Get the activation of the player, but inverted
-            bool oposite = !GetPlayerActivation(source.ToString());
-            // Save it and send it to everyone
-            activations[source.ToString()] = oposite;
-            TriggerClientEvent("simplepassive:activationChanged", source.ToString(), oposite);
-            Debug.WriteLine($"Player {source} set it's activation to {oposite}");
+            // Convert the source to a string
+            string src = source.ToString();
+            // If the player is allowed to change the activation of itself
+            if (API.IsPlayerAceAllowed(src, "simplepassive.changeself"))
+            {
+                // Get the activation of the player, but inverted
+                bool oposite = !GetPlayerActivation(src);
+                // Save it and send it to everyone
+                activations[src] = oposite;
+                TriggerClientEvent("simplepassive:activationChanged", src, oposite);
+                Debug.WriteLine($"Player {source} set it's activation to {oposite}");
+            }
         }
 
         #endregion
