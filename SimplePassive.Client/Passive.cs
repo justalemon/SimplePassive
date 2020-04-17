@@ -22,6 +22,15 @@ namespace SimplePassive.Client
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// The Alpha/Transparency value for other entities.
+        /// </summary>
+        public int Alpha => API.GetConvarInt("simplepassive_alpha", 200);
+
+        #endregion
+
         #region Constructor
 
         public Passive()
@@ -86,7 +95,7 @@ namespace SimplePassive.Client
                 if (player != Game.Player)
                 {
                     // Set the correct alpha for the other entity (just in case the resource restarted with passive enabled)
-                    API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? 200 : 255, 0);
+                    API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? Alpha : 255, 0);
 
                     // If passive mode is activated by the other or local player
                     if (disableCollisions)
