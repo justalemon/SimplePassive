@@ -2,6 +2,7 @@
 using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Channels;
 
 namespace SimplePassive.Server
 {
@@ -16,6 +17,10 @@ namespace SimplePassive.Server
         /// The activation of passive mode for specific players.
         /// </summary>
         public readonly Dictionary<string, bool> activations = new Dictionary<string, bool>();
+        /// <summary>
+        /// The activations that override the dictionary above.
+        /// </summary>
+        public readonly Dictionary<string, bool> overrides = new Dictionary<string, bool>();
 
         #endregion
 
@@ -35,7 +40,21 @@ namespace SimplePassive.Server
         /// </summary>
         /// <param name="player">The player to check.</param>
         /// <returns>True, False or the default value.</returns>
-        public bool GetPlayerActivation(string player) => activations.ContainsKey(player) ? activations[player] : DefaultActivation;
+        public bool GetPlayerActivation(string player)
+        {
+            // If the player has an override active, return that
+            if (overrides.ContainsKey(player))
+            {
+                return overrides[player];
+            }
+            // If there is no override but there is a custom status, return that
+            else if (activations.ContainsKey(player))
+            {
+                return activations[player];
+            }
+            // Otherwise, just return the default value
+            return DefaultActivation;
+        }
 
         #endregion
 
@@ -44,6 +63,7 @@ namespace SimplePassive.Server
         public Passive()
         {
             Exports.Add("setPlayerActivation", new Func<int, bool, bool>(SetPlayerActivation));
+            Exports.Add("setPlayerOverride", new Func<int, bool, bool>(SetPlayerOverride));
         }
 
         #endregion
@@ -65,11 +85,35 @@ namespace SimplePassive.Server
                 return false;
             }
 
-            // Otherwise, save the new activation
+            // Otherwise, save the new activation and send it
             activations[player.Handle] = activation;
-            // And send it to everyone
             TriggerClientEvent("simplepassive:activationChanged", player, activation);
+
             Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
+            return true;
+        }
+
+        /// <summary>
+        /// Overrides the activation of a player.
+        /// </summary>
+        /// <param name="id">The ID of the player.</param>
+        /// <param name="activation">The desired activation.</param>
+        /// <returns>True if we succeeded, False otherwise.</returns>
+        public bool SetPlayerOverride(int id, bool activation)
+        {
+            // Try to get the player
+            Player player = Players[id];
+            // If is not valid, return
+            if (player == null)
+            {
+                return false;
+            }
+            // Add the override and send it
+            overrides[player.Handle] = activation;
+            TriggerClientEvent("simplepassive:activationChanged", player.Handle, activation);
+
+            // Finally, say that this succeeded
+            Debug.WriteLine($"Passive Activation of {player.Handle} is now overridden ({activation})");
             return true;
         }
 
@@ -98,6 +142,70 @@ namespace SimplePassive.Server
         #region Commands
 
         /// <summary>
+        /// Overrides the passive mode activation of a player.
+        /// </summary>
+        [Command("passiveoverride", Restricted = true)]
+        public void OverrideCommand(int source, List<object> arguments, string raw)
+        {
+            // If no player or activation was specified, say it and return
+            if (arguments.Count < 2)
+            {
+                Debug.WriteLine("You need to specify the Player ID and desired Activation!");
+                return;
+            }
+
+            // Try to convert the first value to an int
+            // If we failed, return
+            if (!int.TryParse(arguments[1].ToString(), out int playerID))
+            {
+                Debug.WriteLine("The Player ID is not a number!");
+                return;
+            }
+
+            // Try to get the player
+            Player player = Players[playerID];
+            // If is not valid, say it and return
+            if (player == null)
+            {
+                Debug.WriteLine("The Player specified is not present.");
+                return;
+            }
+
+            // Try to convert the second value to an int
+            // If we failed, return
+            if (!int.TryParse(arguments[1].ToString(), out int value))
+            {
+                Debug.WriteLine("The activation needs to be 0 or 1!");
+                return;
+            }
+
+            // If we got here, convert the activation to a boolean and set it
+            bool activation = Convert.ToBoolean(value);
+            SetPlayerOverride(playerID, activation);
+        }
+
+        /// <summary>
+        /// Shows the current overrides in the server.
+        /// </summary>
+        [Command("passiveoverrides", Restricted = true)]
+        public void OverridesCommand()
+        {
+            // If there are no overrides set, say it and return
+            if (overrides.Count == 0)
+            {
+                Debug.WriteLine($"There are no Passive Mode Overrides in place.");
+                return;
+            }
+
+            // Otherwise, list them one by one
+            Debug.WriteLine($"Current Passive Mode Overrides:");
+            foreach (var activation in overrides)
+            {
+                Debug.WriteLine($"\t{activation.Key} set to {activation.Value}");
+            }
+        }
+
+        /// <summary>
         /// Command that toggles the passive mode activation of the player.
         /// </summary>
         [Command("togglepassive")]
@@ -112,6 +220,14 @@ namespace SimplePassive.Server
 
             // Convert the source to a string
             string src = source.ToString();
+
+            // If this player has an override active, say it and return
+            if (overrides.ContainsKey(src))
+            {
+                Debug.WriteLine("Your Passive Mode Activation has been overriden, you can't change it");
+                return;
+            }
+
             // If the player is allowed to change the activation of itself
             if (API.IsPlayerAceAllowed(src, "simplepassive.changeself"))
             {
