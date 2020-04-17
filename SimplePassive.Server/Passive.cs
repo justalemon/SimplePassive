@@ -184,10 +184,8 @@ namespace SimplePassive.Server
                 return;
             }
 
-            // Try to get the player
-            Player player = Players[playerID];
-            // If is not valid, say it and return
-            if (player == null)
+            // If the player is not valid, say it and return
+            if (Players[playerID] == null)
             {
                 Debug.WriteLine("The Player specified is not present.");
                 return;
