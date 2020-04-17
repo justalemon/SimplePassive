@@ -1,7 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using CitizenFX.Core.UI;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace SimplePassive.Client
@@ -56,7 +58,10 @@ namespace SimplePassive.Client
                 API.SetEntityAlpha(Game.Player.Character.CurrentVehicle.Handle, 255, 0);
             }
 
-            // Get the activation of the local player and id of it
+            // Create a text for the debug mode
+            string debugText = "Passive Players: ";
+
+            // Get the the ID of the local player and the activation of it
             string localID = Game.Player.ServerId.ToString();
             bool localActivation = GetPlayerActivation(localID);
 
@@ -73,6 +78,9 @@ namespace SimplePassive.Client
                 // Select the correct entity for the local and other player
                 Entity local = (Entity)Game.Player.Character.CurrentVehicle ?? Game.Player.Character;
                 Entity other = (Entity)player.Character.CurrentVehicle ?? player.Character;
+
+                // Add the player activation onto the debug text
+                debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
 
                 // If this player is not the same as the local one
                 if (player != Game.Player)
@@ -95,6 +103,14 @@ namespace SimplePassive.Client
                         API.SetEntityNoCollisionEntity(local.Handle, other.Handle, true);
                         API.SetEntityNoCollisionEntity(other.Handle, local.Handle, true);
                     }
+                }
+
+                // Add the local activation onto the debug text
+                debugText += $"\nLocal Status: {localActivation}";
+                // And draw it if the debug mode is enabled
+                if (Convert.ToBoolean(API.GetConvarInt("simplepassive_debug", 0)))
+                {
+                    new Text(debugText, new PointF(0, 0), 0.5f).Draw();
                 }
             }
         }
