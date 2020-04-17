@@ -208,8 +208,8 @@ namespace SimplePassive.Server
         /// <summary>
         /// Command that toggles the passive mode activation of the player.
         /// </summary>
-        [Command("togglepassive")]
-        public void TogglePassiveCommand(int source, List<object> arguments, string raw)
+        [Command("passivetoggle")]
+        public void ToggleCommand(int source, List<object> arguments, string raw)
         {
             // If the source is the Console or RCON, return
             if (source < 1)
