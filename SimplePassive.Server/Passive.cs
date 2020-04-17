@@ -75,6 +75,26 @@ namespace SimplePassive.Server
 
         #endregion
 
+        #region Network Events
+
+        /// <summary>
+        /// Event triggered by the Clients when they are ready to handle passive mode.
+        /// </summary>
+        [EventHandler("simplepassive:activationsRequested")]
+        public void ActivationsRequested([FromSource]Player player)
+        {
+            // Iterate over the players
+            foreach (Player srvPlayer in Players)
+            {
+                // Get the activation of the player and send it
+                bool activation = GetPlayerActivation(srvPlayer.Handle);
+                player.TriggerEvent("simplepassive:activationChanged", srvPlayer.Handle, activation);
+            }
+            Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
+        }
+
+        #endregion
+
         #region Commands
 
         /// <summary>

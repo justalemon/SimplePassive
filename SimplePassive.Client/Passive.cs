@@ -23,6 +23,16 @@ namespace SimplePassive.Client
 
         #endregion
 
+        #region Constructor
+
+        public Passive()
+        {
+            // Tell the server that this client is ready to work
+            TriggerServerEvent("simplepassive:activationsRequested");
+        }
+
+        #endregion
+
         #region Network Events
 
         /// <summary>
