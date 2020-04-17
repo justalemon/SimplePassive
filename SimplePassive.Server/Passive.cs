@@ -64,6 +64,7 @@ namespace SimplePassive.Server
         {
             Exports.Add("setPlayerActivation", new Func<int, bool, bool>(SetPlayerActivation));
             Exports.Add("setPlayerOverride", new Func<int, bool, bool>(SetPlayerOverride));
+            Exports.Add("clearOverride", new Func<int, bool>(ClearOverride));
         }
 
         #endregion
@@ -115,6 +116,27 @@ namespace SimplePassive.Server
             // Finally, say that this succeeded
             Debug.WriteLine($"Passive Activation of {player.Handle} is now overridden ({activation})");
             return true;
+        }
+
+        /// <summary>
+        /// Clears the override of a player.
+        /// </summary>
+        /// <param name="id">The target player.</param>
+        /// <returns>True if the override was cleared, False if no override was present.</returns>
+        public bool ClearOverride(int id)
+        {
+            // Convert the ID to a string
+            string newID = id.ToString();
+
+            // If is present, remove it and return
+            if (overrides.ContainsKey(newID))
+            {
+                overrides.Remove(newID);
+                Debug.WriteLine($"Passive Mode Override of {id} was removed");
+                return true;
+            }
+            // Otherwise, say that is not present
+            return false;
         }
 
         #endregion
@@ -182,6 +204,41 @@ namespace SimplePassive.Server
             // If we got here, convert the activation to a boolean and set it
             bool activation = Convert.ToBoolean(value);
             SetPlayerOverride(playerID, activation);
+        }
+
+        /// <summary>
+        /// Clears the passive mode override for a player.
+        /// </summary>
+        [Command("passiveclear", Restricted = true)]
+        public void Clear(int source, List<object> arguments, string raw)
+        {
+            // If there are no arguments, return
+            if (arguments.Count == 0)
+            {
+                Debug.WriteLine("You need to specify the ID of a Player!");
+                return;
+            }
+
+            // Try to convert the first value to an int
+            // If we failed, return
+            if (!int.TryParse(arguments[0].ToString(), out int id))
+            {
+                Debug.WriteLine("The Player ID is not a number!");
+                return;
+            }
+
+            // If the player is not valid, say it and return
+            if (Players[id] == null)
+            {
+                Debug.WriteLine("The Player specified is not valid.");
+                return;
+            }
+
+            // Now, time to remove the Override
+            if (!ClearOverride(id))
+            {
+                Debug.WriteLine($"The player {id} does not has a Passive Mode Override");
+            }
         }
 
         /// <summary>
