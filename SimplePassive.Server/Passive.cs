@@ -147,12 +147,19 @@ namespace SimplePassive.Server
         [EventHandler("simplepassive:initialized")]
         public void Initialized([FromSource]Player player)
         {
+            // Convert the ID to an int
+            int id = int.Parse(player.Handle);
+
+            // Start by saving the activation of the local player
+            activations[id] = DefaultActivation;
+            TriggerClientEvent("simplepassive:activationChanged", id, DefaultActivation);
+
             // Iterate over the players
             foreach (Player srvPlayer in Players)
             {
                 // Get the activation of the player and send it
-                bool activation = GetPlayerActivation(int.Parse(srvPlayer.Handle));
-                player.TriggerEvent("simplepassive:activationChanged", srvPlayer.Handle, activation);
+                bool activation = GetPlayerActivation(id);
+                player.TriggerEvent("simplepassive:activationChanged", int.Parse(srvPlayer.Handle), activation);
             }
             Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
         }
