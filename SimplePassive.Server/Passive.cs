@@ -2,7 +2,6 @@
 using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Channels;
 
 namespace SimplePassive.Server
 {
@@ -16,11 +15,11 @@ namespace SimplePassive.Server
         /// <summary>
         /// The activation of passive mode for specific players.
         /// </summary>
-        public readonly Dictionary<string, bool> activations = new Dictionary<string, bool>();
+        public readonly Dictionary<int, bool> activations = new Dictionary<int, bool>();
         /// <summary>
         /// The activations that override the dictionary above.
         /// </summary>
-        public readonly Dictionary<string, bool> overrides = new Dictionary<string, bool>();
+        public readonly Dictionary<int, bool> overrides = new Dictionary<int, bool>();
 
         #endregion
 
@@ -40,7 +39,7 @@ namespace SimplePassive.Server
         /// </summary>
         /// <param name="player">The player to check.</param>
         /// <returns>True, False or the default value.</returns>
-        public bool GetPlayerActivation(string player)
+        public bool GetPlayerActivation(int player)
         {
             // If the player has an override active, return that
             if (overrides.ContainsKey(player))
@@ -64,7 +63,7 @@ namespace SimplePassive.Server
         {
             Exports.Add("getPlayerActivation", new Func<int, bool>(GetPlayerActivation));
             Exports.Add("setPlayerActivation", new Func<int, bool, bool>(SetPlayerActivation));
-            Exports.Add("isPlayerOverriden", new Func<int, bool>((id) => overrides.ContainsKey(id.ToString())));
+            Exports.Add("isPlayerOverriden", new Func<int, bool>((id) => overrides.ContainsKey(id)));
             Exports.Add("setPlayerOverride", new Func<int, bool, bool>(SetPlayerOverride));
             Exports.Add("clearOverride", new Func<int, bool>(ClearOverride));
         }
@@ -72,13 +71,6 @@ namespace SimplePassive.Server
         #endregion
 
         #region Export
-
-        /// <summary>
-        /// Gets the activation of a Player.
-        /// </summary>
-        /// <param name="id">The Server ID of a Player.</param>
-        /// <returns>The passive activation of the player.</returns>
-        public bool GetPlayerActivation(int id) => GetPlayerActivation(id.ToString());
 
         /// <summary>
         /// Sets the Passive Mode activation of a player.
@@ -96,7 +88,7 @@ namespace SimplePassive.Server
             }
 
             // Otherwise, save the new activation and send it
-            activations[player.Handle] = activation;
+            activations[int.Parse(player.Handle)] = activation;
             TriggerClientEvent("simplepassive:activationChanged", player, activation);
 
             Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
@@ -119,7 +111,7 @@ namespace SimplePassive.Server
                 return false;
             }
             // Add the override and send it
-            overrides[player.Handle] = activation;
+            overrides[int.Parse(player.Handle)] = activation;
             TriggerClientEvent("simplepassive:activationChanged", player.Handle, activation);
 
             // Finally, say that this succeeded
@@ -134,13 +126,10 @@ namespace SimplePassive.Server
         /// <returns>True if the override was cleared, False if no override was present.</returns>
         public bool ClearOverride(int id)
         {
-            // Convert the ID to a string
-            string newID = id.ToString();
-
             // If is present, remove it and return
-            if (overrides.ContainsKey(newID))
+            if (overrides.ContainsKey(id))
             {
-                overrides.Remove(newID);
+                overrides.Remove(id);
                 Debug.WriteLine($"Passive Mode Override of {id} was removed");
                 return true;
             }
@@ -162,7 +151,7 @@ namespace SimplePassive.Server
             foreach (Player srvPlayer in Players)
             {
                 // Get the activation of the player and send it
-                bool activation = GetPlayerActivation(srvPlayer.Handle);
+                bool activation = GetPlayerActivation(int.Parse(srvPlayer.Handle));
                 player.TriggerEvent("simplepassive:activationChanged", srvPlayer.Handle, activation);
             }
             Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
@@ -282,24 +271,21 @@ namespace SimplePassive.Server
                 return;
             }
 
-            // Convert the source to a string
-            string src = source.ToString();
-
             // If this player has an override active, say it and return
-            if (overrides.ContainsKey(src))
+            if (overrides.ContainsKey(source))
             {
                 Debug.WriteLine("Your Passive Mode Activation has been overriden, you can't change it");
                 return;
             }
 
             // If the player is allowed to change the activation of itself
-            if (API.IsPlayerAceAllowed(src, "simplepassive.changeself"))
+            if (API.IsPlayerAceAllowed(source.ToString(), "simplepassive.changeself"))
             {
                 // Get the activation of the player, but inverted
-                bool oposite = !GetPlayerActivation(src);
+                bool oposite = !GetPlayerActivation(source);
                 // Save it and send it to everyone
-                activations[src] = oposite;
-                TriggerClientEvent("simplepassive:activationChanged", src, oposite);
+                activations[source] = oposite;
+                TriggerClientEvent("simplepassive:activationChanged", source, oposite);
                 Debug.WriteLine($"Player {source} set it's activation to {oposite}");
             }
         }

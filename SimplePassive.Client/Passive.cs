@@ -18,7 +18,7 @@ namespace SimplePassive.Client
         /// <summary>
         /// The activation of passive mode for specific players.
         /// </summary>
-        public readonly Dictionary<string, bool> activations = new Dictionary<string, bool>();
+        public readonly Dictionary<int, bool> activations = new Dictionary<int, bool>();
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace SimplePassive.Client
         /// </summary>
         /// <param name="player">The player to check.</param>
         /// <returns>True, False or the default value.</returns>
-        public bool GetPlayerActivation(string player) => activations.ContainsKey(player) ? activations[player] : Convert.ToBoolean(API.GetConvarInt("simplepassive_default", 0));
+        public bool GetPlayerActivation(int player) => activations.ContainsKey(player) ? activations[player] : Convert.ToBoolean(API.GetConvarInt("simplepassive_default", 0));
 
         #endregion
 
@@ -71,17 +71,13 @@ namespace SimplePassive.Client
             string debugText = "Passive Players: ";
 
             // Get the the ID of the local player and the activation of it
-            string localID = Game.Player.ServerId.ToString();
-            bool localActivation = GetPlayerActivation(localID);
+            bool localActivation = GetPlayerActivation(Game.Player.ServerId);
 
             // Iterate over the list of players
             foreach (Player player in Players)
             {
-                // Convert the ID of the player to a string
-                string remoteID = player.ServerId.ToString();
-
                 // Get the correct activation for this player
-                bool playerActivation = GetPlayerActivation(remoteID);
+                bool playerActivation = GetPlayerActivation(player.ServerId);
                 bool disableCollisions = playerActivation || localActivation;
 
                 // Select the correct entity for the local and other player
@@ -134,7 +130,7 @@ namespace SimplePassive.Client
         /// <param name="handle">The Server Handle/ID of the player.</param>
         /// <param name="activation">The activation of that player.</param>
         [EventHandler("simplepassive:activationChanged")]
-        public void ActivationChanged(string handle, bool activation)
+        public void ActivationChanged(int handle, bool activation)
         {
             // Just save the activation of the player
             activations[handle] = activation;
@@ -155,7 +151,7 @@ namespace SimplePassive.Client
         {
             // Just iterate and print every single one of them
             Debug.WriteLine("Known Activations:");
-            foreach (KeyValuePair<string, bool> activation in activations)
+            foreach (KeyValuePair<int, bool> activation in activations)
             {
                 Debug.WriteLine($"{activation.Key} set to {activation.Value}");
             }
