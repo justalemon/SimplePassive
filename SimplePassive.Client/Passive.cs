@@ -36,7 +36,7 @@ namespace SimplePassive.Client
         public Passive()
         {
             // Tell the server that this client is ready to work
-            TriggerServerEvent("simplepassive:activationsRequested");
+            TriggerServerEvent("simplepassive:initialized");
         }
 
         #endregion

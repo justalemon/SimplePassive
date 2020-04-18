@@ -142,10 +142,10 @@ namespace SimplePassive.Server
         #region Network Events
 
         /// <summary>
-        /// Event triggered by the Clients when they are ready to handle passive mode.
+        /// Event triggered when a Client/Player has been initialized and is ready to work.
         /// </summary>
-        [EventHandler("simplepassive:activationsRequested")]
-        public void ActivationsRequested([FromSource]Player player)
+        [EventHandler("simplepassive:initialized")]
+        public void Initialized([FromSource]Player player)
         {
             // Iterate over the players
             foreach (Player srvPlayer in Players)
