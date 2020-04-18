@@ -62,6 +62,7 @@ namespace SimplePassive.Server
 
         public Passive()
         {
+            Exports.Add("getPlayerActivation", new Func<int, bool>(GetPlayerActivation));
             Exports.Add("setPlayerActivation", new Func<int, bool, bool>(SetPlayerActivation));
             Exports.Add("setPlayerOverride", new Func<int, bool, bool>(SetPlayerOverride));
             Exports.Add("clearOverride", new Func<int, bool>(ClearOverride));
@@ -70,6 +71,13 @@ namespace SimplePassive.Server
         #endregion
 
         #region Export
+
+        /// <summary>
+        /// Gets the activation of a Player.
+        /// </summary>
+        /// <param name="id">The Server ID of a Player.</param>
+        /// <returns>The passive activation of the player.</returns>
+        public bool GetPlayerActivation(int id) => GetPlayerActivation(id.ToString());
 
         /// <summary>
         /// Sets the Passive Mode activation of a player.
