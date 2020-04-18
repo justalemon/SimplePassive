@@ -109,14 +109,14 @@ namespace SimplePassive.Client
                         API.SetEntityNoCollisionEntity(other.Handle, local.Handle, true);
                     }
                 }
+            }
 
-                // Add the local activation onto the debug text
-                debugText += $"\nLocal Status: {localActivation}";
-                // And draw it if the debug mode is enabled
-                if (Convert.ToBoolean(API.GetConvarInt("simplepassive_debug", 0)))
-                {
-                    new Text(debugText, new PointF(0, 0), 0.5f).Draw();
-                }
+            // Add the local activation onto the debug text
+            debugText += $"\nLocal Status: {localActivation}";
+            // And draw it if the debug mode is enabled
+            if (Convert.ToBoolean(API.GetConvarInt("simplepassive_debug", 0)))
+            {
+                new Text(debugText, new PointF(0, 0), 0.5f).Draw();
             }
         }
 
