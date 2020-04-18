@@ -137,6 +137,20 @@ namespace SimplePassive.Client
             Debug.WriteLine($"Received Passive Activation of {handle} ({activation})");
         }
 
+        /// <summary>
+        /// Does some cleanup for a specific player.
+        /// </summary>
+        /// <param name="id">The ID of the player.</param>
+        [EventHandler("simplepassive:doCleanup")]
+        public void DoCleanup(int id)
+        {
+            // If there is an activation for the player, remove it
+            if (activations.ContainsKey(id))
+            {
+                activations.Remove(id);
+            }
+        }
+
         #endregion
 
         #region Debug Commands

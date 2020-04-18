@@ -142,6 +142,29 @@ namespace SimplePassive.Server
         #region Network Events
 
         /// <summary>
+        /// Does some cleanup when a player leaves.
+        /// </summary>
+        [EventHandler("playerDropped")]
+        public void PlayerDropped([FromSource]Player player, string reason)
+        {
+            // Convert the handle to an int
+            int id = int.Parse(player.Handle);
+            // Tell the client to the cleanup
+            TriggerClientEvent("simplepassive:doCleanup", id);
+
+            // If there is an activation or override for the player, remove it
+            if (activations.ContainsKey(id))
+            {
+                activations.Remove(id);
+            }
+
+            if (overrides.ContainsKey(id))
+            {
+                overrides.Remove(id);
+            }
+        }
+
+        /// <summary>
         /// Event triggered when a Client/Player has been initialized and is ready to work.
         /// </summary>
         [EventHandler("simplepassive:initialized")]
