@@ -88,8 +88,8 @@ namespace SimplePassive.Server
             }
 
             // Otherwise, save the new activation and send it
-            activations[int.Parse(player.Handle)] = activation;
-            TriggerClientEvent("simplepassive:activationChanged", player, activation);
+            activations[id] = activation;
+            TriggerClientEvent("simplepassive:activationChanged", id, activation);
 
             Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
             return true;
@@ -111,8 +111,8 @@ namespace SimplePassive.Server
                 return false;
             }
             // Add the override and send it
-            overrides[int.Parse(player.Handle)] = activation;
-            TriggerClientEvent("simplepassive:activationChanged", player.Handle, activation);
+            overrides[id] = activation;
+            TriggerClientEvent("simplepassive:activationChanged", id, activation);
 
             // Finally, say that this succeeded
             Debug.WriteLine($"Passive Activation of {player.Handle} is now overridden ({activation})");
@@ -180,9 +180,11 @@ namespace SimplePassive.Server
             // Iterate over the players
             foreach (Player srvPlayer in Players)
             {
+                // Convert the handle to an int
+                int handle = int.Parse(srvPlayer.Handle);
                 // Get the activation of the player and send it
-                bool activation = GetPlayerActivation(id);
-                player.TriggerEvent("simplepassive:activationChanged", int.Parse(srvPlayer.Handle), activation);
+                bool activation = GetPlayerActivation(handle);
+                player.TriggerEvent("simplepassive:activationChanged", handle, activation);
             }
             Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
         }
