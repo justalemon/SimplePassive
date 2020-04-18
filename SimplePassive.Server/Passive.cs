@@ -208,7 +208,7 @@ namespace SimplePassive.Server
 
             // Try to convert the first value to an int
             // If we failed, return
-            if (!int.TryParse(arguments[1].ToString(), out int playerID))
+            if (!int.TryParse(arguments[0].ToString(), out int playerID))
             {
                 Debug.WriteLine("The Player ID is not a number!");
                 return;
