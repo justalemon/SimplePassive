@@ -28,6 +28,10 @@ namespace SimplePassive.Client
         /// The Alpha/Transparency value for other entities.
         /// </summary>
         public int Alpha => API.GetConvarInt("simplepassive_alpha", 200);
+        /// <summary>
+        /// If the combat features should be disabled.
+        /// </summary>
+        public bool DisableCombat => Convert.ToBoolean(API.GetConvarInt("simplepassive_disablecombat", 0));
 
         #endregion
 
@@ -72,6 +76,30 @@ namespace SimplePassive.Client
 
             // Get the the ID of the local player and the activation of it
             bool localActivation = GetPlayerActivation(Game.Player.ServerId);
+
+            // If the current player has passive enabled
+            if (localActivation)
+            {
+                // If we need to disable combat
+                if (DisableCombat)
+                {
+                    // There are some values that we set on the activationChanged event
+                    // If is not on this chunk, is probably on that event
+
+                    // Disable the firing of weapons
+                    API.DisablePlayerFiring(Game.Player.Handle, true);
+                    // And disable the controls related to attacking
+                    Game.DisableControlThisFrame(0, Control.MeleeAttack1);
+                    Game.DisableControlThisFrame(0, Control.MeleeAttack2);
+                    Game.DisableControlThisFrame(0, Control.Attack);
+                    Game.DisableControlThisFrame(0, Control.Attack2);
+                    Game.DisableControlThisFrame(0, Control.VehicleAttack);
+                    Game.DisableControlThisFrame(0, Control.VehicleAttack2);
+                    Game.DisableControlThisFrame(0, Control.VehiclePassengerAttack);
+                    Game.DisableControlThisFrame(0, Control.VehicleFlyAttack);
+                    Game.DisableControlThisFrame(0, Control.VehicleFlyAttack2);
+                }
+            }
 
             // Iterate over the list of players
             foreach (Player player in Players)
@@ -135,6 +163,13 @@ namespace SimplePassive.Client
             // Just save the activation of the player
             activations[handle] = activation;
             Debug.WriteLine($"Received Passive Activation of {handle} ({activation})");
+
+            // If the passive activation is for the current player
+            if (handle == Game.Player.ServerId)
+            {
+                // Set the correct activation for drive by-s
+                API.SetPlayerCanDoDriveBy(Game.Player.Handle, (!activation && DisableCombat) || !DisableCombat);
+            }
         }
 
         /// <summary>
