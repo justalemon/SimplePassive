@@ -74,13 +74,13 @@ namespace SimplePassive.Client
             // Create a text for the debug mode
             string debugText = "Passive Players: ";
 
-            // Get the the ID of the local player and the activation of it
+            // Get the activation of the local player for later use
             bool localActivation = GetPlayerActivation(Game.Player.ServerId);
 
-            // If the current player has passive enabled
+            // If the local player has passive mode enabled
             if (localActivation)
             {
-                // If we need to disable combat
+                // If the player is not allowed to fight other players
                 if (DisableCombat)
                 {
                     // There are some values that we set on the activationChanged event
@@ -101,19 +101,19 @@ namespace SimplePassive.Client
                 }
             }
 
-            // Iterate over the list of players
+            // Then, iterate over the list of players
             foreach (Player player in Players)
             {
                 // Get the correct activation for this player
                 bool playerActivation = GetPlayerActivation(player.ServerId);
                 bool disableCollisions = playerActivation || localActivation;
 
-                // Select the correct entity for the local and other player
+                // Add the activation onto the debug text
+                debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
+
+                // Select the correct entities for both players
                 Entity local = (Entity)Game.Player.Character.CurrentVehicle ?? Game.Player.Character;
                 Entity other = (Entity)player.Character.CurrentVehicle ?? player.Character;
-
-                // Add the player activation onto the debug text
-                debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
 
                 // If this player is not the same as the local one
                 if (player != Game.Player)
