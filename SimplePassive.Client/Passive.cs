@@ -132,9 +132,11 @@ namespace SimplePassive.Client
                             continue;
                         }
 
-                        // Otherwise, set the collisions for the entities
+                        // Otherwise, set the collisions for the entities and player peds
                         API.SetEntityNoCollisionEntity(local.Handle, other.Handle, true);
                         API.SetEntityNoCollisionEntity(other.Handle, local.Handle, true);
+                        API.SetEntityNoCollisionEntity(Game.Player.Character.Handle, player.Character.Handle, true);
+                        API.SetEntityNoCollisionEntity(player.Character.Handle, Game.Player.Character.Handle, true);
                     }
                 }
             }
