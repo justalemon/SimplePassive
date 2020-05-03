@@ -41,6 +41,7 @@ namespace SimplePassive.Client
         {
             // Add the exports
             Exports.Add("setPassiveActivation", new Action<bool>(SetPassiveActivation));
+            Exports.Add("getPassiveActivation", new Func<bool>(() => GetPlayerActivation(Game.Player.ServerId)));
             // And tell the server that this client is ready to work
             TriggerServerEvent("simplepassive:initialized");
         }
