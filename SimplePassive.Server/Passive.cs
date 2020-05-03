@@ -189,6 +189,25 @@ namespace SimplePassive.Server
             Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
         }
 
+        /// <summary>
+        /// Changes the activation for a player.
+        /// </summary>
+        [EventHandler("simplepassive:setPassive")]
+        public void SetPassive([FromSource]Player player, bool activation)
+        {
+            // Convert the handle to an int
+            int handle = int.Parse(player.Handle);
+
+            // If the player is allowed to change the activation of itself and there is no override
+            if (API.IsPlayerAceAllowed(player.Handle, "simplepassive.changeself") && !overrides.ContainsKey(handle))
+            {
+                // Save it and send it to everyone
+                activations[handle] = activation;
+                TriggerClientEvent("simplepassive:activationChanged", handle, activation);
+                Debug.WriteLine($"Player {handle} activation was changed to {activation}");
+            }
+        }
+
         #endregion
 
         #region Commands

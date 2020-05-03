@@ -39,7 +39,9 @@ namespace SimplePassive.Client
 
         public Passive()
         {
-            // Tell the server that this client is ready to work
+            // Add the exports
+            Exports.Add("setPassiveActivation", new Action<bool>(SetPassiveActivation));
+            // And tell the server that this client is ready to work
             TriggerServerEvent("simplepassive:initialized");
         }
 
@@ -53,6 +55,17 @@ namespace SimplePassive.Client
         /// <param name="player">The player to check.</param>
         /// <returns>True, False or the default value.</returns>
         public bool GetPlayerActivation(int player) => activations.ContainsKey(player) ? activations[player] : Convert.ToBoolean(API.GetConvarInt("simplepassive_default", 0));
+
+        #endregion
+
+        #region Exports
+
+        public void SetPassiveActivation(bool activation)
+        {
+            // Tell the server to change the activation of the current player
+            Debug.WriteLine($"Requesting server to change the activation to {activation}");
+            TriggerServerEvent("simplepassive:setPassive", activation);
+        }
 
         #endregion
 
