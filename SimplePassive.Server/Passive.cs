@@ -82,7 +82,10 @@ namespace SimplePassive.Server
             activations[id] = activation;
             TriggerClientEvent("simplepassive:activationChanged", id, activation);
 
-            Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
+            if (Convars.Debug)
+            {
+                Debug.WriteLine($"Passive Activation of '{player.Name}' ({player.Handle}) is now {activation}");
+            }
             return true;
         }
 
@@ -106,7 +109,10 @@ namespace SimplePassive.Server
             TriggerClientEvent("simplepassive:activationChanged", id, activation);
 
             // Finally, say that this succeeded
-            Debug.WriteLine($"Passive Activation of {player.Handle} is now overridden ({activation})");
+            if (Convars.Debug)
+            {
+                Debug.WriteLine($"Passive Activation of {player.Handle} is now overridden ({activation})");
+            }
             return true;
         }
 
@@ -121,7 +127,10 @@ namespace SimplePassive.Server
             if (overrides.ContainsKey(id))
             {
                 overrides.Remove(id);
-                Debug.WriteLine($"Passive Mode Override of {id} was removed");
+                if (Convars.Debug)
+                {
+                    Debug.WriteLine($"Passive Mode Override of {id} was removed");
+                }
                 return true;
             }
             // Otherwise, say that is not present
@@ -177,7 +186,10 @@ namespace SimplePassive.Server
                 bool activation = GetPlayerActivation(handle);
                 player.TriggerEvent("simplepassive:activationChanged", handle, activation);
             }
-            Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
+            if (Convars.Debug)
+            {
+                Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
+            }
         }
 
         /// <summary>
@@ -195,7 +207,11 @@ namespace SimplePassive.Server
                 // Save it and send it to everyone
                 activations[handle] = activation;
                 TriggerClientEvent("simplepassive:activationChanged", handle, activation);
-                Debug.WriteLine($"Player {handle} activation was changed to {activation}");
+                if (Convars.Debug)
+                {
+                    // Save it and send it to everyone
+                    Debug.WriteLine($"Player {handle} activation was changed to {activation}");
+                }
             }
         }
 

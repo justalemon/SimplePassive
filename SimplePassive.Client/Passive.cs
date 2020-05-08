@@ -51,7 +51,10 @@ namespace SimplePassive.Client
         public void SetPassiveActivation(bool activation)
         {
             // Tell the server to change the activation of the current player
-            Debug.WriteLine($"Requesting server to change the activation to {activation}");
+            if (Convars.Debug)
+            {
+                Debug.WriteLine($"Requesting server to change the activation to {activation}");
+            }
             TriggerServerEvent("simplepassive:setPassive", activation);
         }
 
@@ -186,7 +189,10 @@ namespace SimplePassive.Client
         {
             // Just save the activation of the player
             activations[handle] = activation;
-            Debug.WriteLine($"Received Passive Activation of {handle} ({activation})");
+            if (Convars.Debug)
+            {
+                Debug.WriteLine($"Received Passive Activation of {handle} ({activation})");
+            }
 
             // If the passive activation is for the current player
             if (handle == Game.Player.ServerId)
