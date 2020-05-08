@@ -1,6 +1,6 @@
 # SimplePassive [![AppVeyor][appveyor-img]][appveyor-url] [![Discord][discord-img]][discord-url]
 
-SimplePassive is a resource for FiveM that allows you to use a Passive Mode just like in GTA Online.
+SimplePassive is a resource for FiveM that allows you to use a Passive Mode like feature just like in GTA Online.
 
 It has multiple configurable features that you can configure and use, like:
 
