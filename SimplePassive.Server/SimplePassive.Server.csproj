@@ -23,6 +23,7 @@
     <None Update="fxmanifest.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="../Convars.cs" />
   </ItemGroup>
 
 </Project>

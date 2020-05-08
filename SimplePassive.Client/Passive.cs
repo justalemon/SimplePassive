@@ -22,19 +22,6 @@ namespace SimplePassive.Client
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// The Alpha/Transparency value for other entities.
-        /// </summary>
-        public int Alpha => API.GetConvarInt("simplepassive_alpha", 200);
-        /// <summary>
-        /// If the combat features should be disabled.
-        /// </summary>
-        public bool DisableCombat => Convert.ToBoolean(API.GetConvarInt("simplepassive_disablecombat", 0));
-
-        #endregion
-
         #region Constructor
 
         public Passive()
@@ -55,7 +42,7 @@ namespace SimplePassive.Client
         /// </summary>
         /// <param name="player">The player to check.</param>
         /// <returns>True, False or the default value.</returns>
-        public bool GetPlayerActivation(int player) => activations.ContainsKey(player) ? activations[player] : Convert.ToBoolean(API.GetConvarInt("simplepassive_default", 0));
+        public bool GetPlayerActivation(int player) => activations.ContainsKey(player) ? activations[player] : Convars.Default;
 
         #endregion
 
@@ -95,7 +82,7 @@ namespace SimplePassive.Client
             if (localActivation)
             {
                 // If the player is not allowed to fight other players
-                if (DisableCombat)
+                if (Convars.DisableCombat)
                 {
                     // There are some values that we set on the activationChanged event
                     // If is not on this chunk, is probably on that event
@@ -132,7 +119,7 @@ namespace SimplePassive.Client
                 if (player != Game.Player)
                 {
                     // Set the correct alpha for the other entities (just in case the resource restarted with passive enabled)
-                    API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? Alpha : 255, 0);
+                    API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? Convars.Alpha : 255, 0);
 
                     // If passive mode is activated by the other or local player
                     if (disableCollisions)
@@ -179,7 +166,7 @@ namespace SimplePassive.Client
             // Add the local activation onto the debug text
             debugText += $"\nLocal Status: {localActivation}";
             // And draw it if the debug mode is enabled
-            if (Convert.ToBoolean(API.GetConvarInt("simplepassive_debug", 0)))
+            if (Convars.Debug)
             {
                 new Text(debugText, new PointF(0, 0), 0.5f).Draw();
             }
@@ -205,7 +192,7 @@ namespace SimplePassive.Client
             if (handle == Game.Player.ServerId)
             {
                 // Set the correct activation for drive by-s
-                API.SetPlayerCanDoDriveBy(Game.Player.Handle, (!activation && DisableCombat) || !DisableCombat);
+                API.SetPlayerCanDoDriveBy(Game.Player.Handle, (!activation && Convars.DisableCombat) || !Convars.DisableCombat);
             }
         }
 

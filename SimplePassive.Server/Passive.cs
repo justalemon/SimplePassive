@@ -23,15 +23,6 @@ namespace SimplePassive.Server
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// If the local player has passive enabled or disabled.
-        /// </summary>
-        public bool DefaultActivation => Convert.ToBoolean(API.GetConvarInt("simplepassive_default", 0));
-
-        #endregion
-
         #region Tools
 
         /// <summary>
@@ -52,7 +43,7 @@ namespace SimplePassive.Server
                 return activations[player];
             }
             // Otherwise, just return the default value
-            return DefaultActivation;
+            return Convars.Default;
         }
 
         #endregion
@@ -174,8 +165,8 @@ namespace SimplePassive.Server
             int id = int.Parse(player.Handle);
 
             // Start by saving the activation of the local player
-            activations[id] = DefaultActivation;
-            TriggerClientEvent("simplepassive:activationChanged", id, DefaultActivation);
+            activations[id] = Convars.Default;
+            TriggerClientEvent("simplepassive:activationChanged", id, Convars.Default);
 
             // Iterate over the players
             foreach (Player srvPlayer in Players)
