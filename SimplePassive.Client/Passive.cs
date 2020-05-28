@@ -108,6 +108,7 @@ namespace SimplePassive.Client
             // Create some references to the local player ped and vehicle
             Ped localPed = Game.Player.Character;
             Vehicle localVehicle = Game.Player.Character.CurrentVehicle;
+            Vehicle localHooked = localVehicle?.GetHookedVehicle();
 
             // Then, iterate over the list of players
             foreach (Player player in Players)
@@ -125,6 +126,7 @@ namespace SimplePassive.Client
                 // Save the ped and vehicle of the other player
                 Ped otherPed = player.Character;
                 Vehicle otherVehicle = player.Character.CurrentVehicle;
+                Vehicle otherHooked = otherVehicle?.GetHookedVehicle();
 
                 // If this player is not the same as the local one
                 if (player != Game.Player)
@@ -149,6 +151,20 @@ namespace SimplePassive.Client
                         otherVehicle?.DisableCollisionsThisFrame(localPed);
                         // Other Player Vehicle (if present) vs Local Player Vehicle (if present)
                         otherVehicle?.DisableCollisionsThisFrame(localVehicle);
+                        // Other Player Vehicle (if present) vs Local Player Hooked (if present)
+                        otherVehicle?.DisableCollisionsThisFrame(localHooked);
+
+                        // Other Player Hooked (if present) vs Local Player
+                        otherHooked?.DisableCollisionsThisFrame(localPed);
+                        // Other Player Hooked (if present) vs Local Player Vehicle (if present)
+                        otherHooked?.DisableCollisionsThisFrame(localVehicle);
+                        // Other Player Hooked (if present) vs Local Player Hooked (if present)
+                        otherHooked?.DisableCollisionsThisFrame(localHooked);
+
+                        // Local Player Hooked (if present) vs Other Player
+                        localHooked?.DisableCollisionsThisFrame(otherPed);
+                        // Local Player Hooked (if present) vs Other Player Vehicle
+                        localHooked?.DisableCollisionsThisFrame(otherVehicle);
 
                         // Local Player Vehicle (if present) vs Other Player
                         localVehicle?.DisableCollisionsThisFrame(otherPed);
