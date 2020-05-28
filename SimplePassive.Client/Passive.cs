@@ -107,7 +107,7 @@ namespace SimplePassive.Client
 
             // Create some references to the local player ped and vehicle
             Ped localPed = Game.Player.Character;
-            Vehicle localVehicle = Game.Player.Character.CurrentVehicle;
+            Vehicle localVehicle = localPed.CurrentVehicle;
             Vehicle localHooked = localVehicle?.GetHookedVehicle();
 
             // Then, iterate over the list of players
@@ -125,7 +125,7 @@ namespace SimplePassive.Client
 
                 // Save the ped and vehicle of the other player
                 Ped otherPed = player.Character;
-                Vehicle otherVehicle = player.Character.CurrentVehicle;
+                Vehicle otherVehicle = otherPed.CurrentVehicle;
                 Vehicle otherHooked = otherVehicle?.GetHookedVehicle();
 
                 // If this player is not the same as the local one
