@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using System.Runtime.CompilerServices;
 
 namespace SimplePassive.Client
 {
@@ -8,6 +9,8 @@ namespace SimplePassive.Client
     /// </summary>
     public static class Extensions
     {
+        #region Vehicle
+
         /// <summary>
         /// Gets the vehicle that is being hooked.
         /// </summary>
@@ -39,5 +42,29 @@ namespace SimplePassive.Client
             // If we got here, just send nothing
             return null;
         }
+
+        #endregion
+
+        #region Entities
+
+        /// <summary>
+        /// Disables the collisions between two entities during the next frame.
+        /// </summary>
+        /// <param name="one">The first entity.</param>
+        /// <param name="two">The second entity.</param>
+        public static void DisableCollisionsThisFrame(this Entity one, Entity two)
+        {
+            // If one of the entities is null, return
+            if (one == null || two == null)
+            {
+                return;
+            }
+
+            // Otherwise, just disable the collisions
+            API.SetEntityNoCollisionEntity(one.Handle, two.Handle, true);
+            API.SetEntityNoCollisionEntity(two.Handle, one.Handle, true);
+        }
+
+        #endregion
     }
 }

@@ -135,33 +135,16 @@ namespace SimplePassive.Client
                             continue;
                         }
 
-                        // If the other player has a vehicle
-                        if (player.Character.CurrentVehicle != null)
-                        {
-                            // Disable the collisions between the local ped and the other vehicle
-                            API.SetEntityNoCollisionEntity(Game.Player.Character.Handle, player.Character.CurrentVehicle.Handle, true);
-                            API.SetEntityNoCollisionEntity(player.Character.CurrentVehicle.Handle, Game.Player.Character.Handle, true);
+                        // Otherwise, disable the collisions
 
-                            // If the local player has a vehicle
-                            if (Game.Player.Character.CurrentVehicle != null)
-                            {
-                                // Disable the collisions between the local vehicle and the other vehicle
-                                API.SetEntityNoCollisionEntity(Game.Player.Character.CurrentVehicle.Handle, player.Character.CurrentVehicle.Handle, true);
-                                API.SetEntityNoCollisionEntity(player.Character.CurrentVehicle.Handle, Game.Player.Character.CurrentVehicle.Handle, true);
-                            }
-                        }
-
-                        // If the local player has a vehicle
-                        if (Game.Player.Character.CurrentVehicle != null)
-                        {
-                            // Disable the collisions between the local vehicle and the other player
-                            API.SetEntityNoCollisionEntity(Game.Player.Character.CurrentVehicle.Handle, player.Character.Handle, true);
-                            API.SetEntityNoCollisionEntity(player.Character.Handle, Game.Player.Character.CurrentVehicle.Handle, true);
-                        }
-
-                        // Disable the colllisions between the other ped and the local epd
-                        API.SetEntityNoCollisionEntity(Game.Player.Character.Handle, player.Character.Handle, true);
-                        API.SetEntityNoCollisionEntity(player.Character.Handle, Game.Player.Character.Handle, true);
+                        // Other Player Vehicle (if present) vs Local Player
+                        player.Character.CurrentVehicle?.DisableCollisionsThisFrame(Game.Player.Character);
+                        // Other Player Vehicle (if present) vs Local Player Vehicle (if present)
+                        player.Character.CurrentVehicle?.DisableCollisionsThisFrame(Game.Player.Character.CurrentVehicle);
+                        // Local Player Vehicle (if present) vs Other Player
+                        Game.Player.Character.CurrentVehicle?.DisableCollisionsThisFrame(player.Character);
+                        // Local Player vs Other Player
+                        Game.Player.Character.DisableCollisionsThisFrame(player.Character);
                     }
                 }
             }
