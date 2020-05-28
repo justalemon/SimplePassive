@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using System.Runtime.CompilerServices;
 
 namespace SimplePassive.Client
 {
