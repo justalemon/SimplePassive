@@ -105,6 +105,10 @@ namespace SimplePassive.Client
                 }
             }
 
+            // Create some references to the local player ped and vehicle
+            Ped localPed = Game.Player.Character;
+            Vehicle localVehicle = Game.Player.Character.CurrentVehicle;
+
             // Then, iterate over the list of players
             foreach (Player player in Players)
             {
@@ -117,6 +121,10 @@ namespace SimplePassive.Client
 
                 // Select the correct entities for both players
                 Entity other = (Entity)player.Character.CurrentVehicle ?? player.Character;
+
+                // Save the ped and vehicle of the other player
+                Ped otherPed = player.Character;
+                Vehicle otherVehicle = player.Character.CurrentVehicle;
 
                 // If this player is not the same as the local one
                 if (player != Game.Player)
@@ -138,13 +146,14 @@ namespace SimplePassive.Client
                         // Otherwise, disable the collisions
 
                         // Other Player Vehicle (if present) vs Local Player
-                        player.Character.CurrentVehicle?.DisableCollisionsThisFrame(Game.Player.Character);
+                        otherVehicle?.DisableCollisionsThisFrame(localPed);
                         // Other Player Vehicle (if present) vs Local Player Vehicle (if present)
-                        player.Character.CurrentVehicle?.DisableCollisionsThisFrame(Game.Player.Character.CurrentVehicle);
+                        otherVehicle?.DisableCollisionsThisFrame(localVehicle);
+
                         // Local Player Vehicle (if present) vs Other Player
-                        Game.Player.Character.CurrentVehicle?.DisableCollisionsThisFrame(player.Character);
+                        localVehicle?.DisableCollisionsThisFrame(otherPed);
                         // Local Player vs Other Player
-                        Game.Player.Character.DisableCollisionsThisFrame(player.Character);
+                        localPed.DisableCollisionsThisFrame(otherPed);
                     }
                 }
             }
