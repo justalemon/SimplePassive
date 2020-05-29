@@ -121,76 +121,78 @@ namespace SimplePassive.Client
                 // Add the activation onto the debug text
                 debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
 
-                // Select the correct entities for both players
-                Entity other = (Entity)player.Character.CurrentVehicle ?? player.Character;
-
                 // Save the ped and vehicle of the other player
                 Ped otherPed = player.Character;
                 Vehicle otherVehicle = otherPed.CurrentVehicle;
                 Vehicle otherHooked = otherVehicle?.GetHookedVehicle();
 
-                // If this player is not the same as the local one
-                if (player != Game.Player)
+                // If the player is the same as the local one, skip this iteration
+                if (player == localPlayer)
                 {
-                    // Set the correct alpha for the other entities (just in case the resource restarted with passive enabled)
-                    API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? Convars.Alpha : 255, 0);
+                    continue;
+                }
 
-                    // If passive mode is activated by the other or local player
-                    if (disableCollisions)
+                // Select the correct entities for both players
+                Entity other = (Entity)player.Character.CurrentVehicle ?? player.Character;
+
+                // Set the correct alpha for the other entities (just in case the resource restarted with passive enabled)
+                API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? Convars.Alpha : 255, 0);
+
+                // If passive mode is activated by the other or local player
+                if (disableCollisions)
+                {
+                    // If the other player is using a vehicle, we are seated on it and we are not the driver, continue
+                    if (player.Character.CurrentVehicle != null &&
+                        API.IsPedInVehicle(player.Character.CurrentVehicle.Handle, Game.Player.Character.Handle, false) &&
+                        player.Character.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) != Game.Player.Character)
                     {
-                        // If the other player is using a vehicle, we are seated on it and we are not the driver, continue
-                        if (player.Character.CurrentVehicle != null &&
-                            API.IsPedInVehicle(player.Character.CurrentVehicle.Handle, Game.Player.Character.Handle, false) &&
-                            player.Character.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) != Game.Player.Character)
-                        {
-                            continue;
-                        }
-
-                        // Otherwise, disable the collisions
-
-                        // Local Player vs Other Player
-                        localPed.DisableCollisionsThisFrame(otherPed);
-                        // Local Player vs Other Vehicle (if present)
-                        localPed.DisableCollisionsThisFrame(otherVehicle);
-                        // Local Player vs Other Hooked (if present)
-                        localPed.DisableCollisionsThisFrame(otherHooked);
-
-                        // Local Vehicle vs Other Player
-                        localVehicle?.DisableCollisionsThisFrame(otherPed);
-                        // Local Vehicle vs Other Vehicle (if present)
-                        localVehicle?.DisableCollisionsThisFrame(otherVehicle);
-                        // Local Vehicle vs Other Hooked (if present)
-                        localVehicle?.DisableCollisionsThisFrame(otherHooked);
-
-                        // Local Hooked vs Other Player
-                        localHooked?.DisableCollisionsThisFrame(otherPed);
-                        // Local Hooked vs Other Vehicle (if present)
-                        localHooked?.DisableCollisionsThisFrame(otherVehicle);
-                        // Local Hooked vs Other Hooked (if present)
-                        localHooked?.DisableCollisionsThisFrame(otherHooked);
-                        
-
-                        // Other Player vs Local Player
-                        otherPed.DisableCollisionsThisFrame(localPed);
-                        // Other Player vs Local Vehicle (if present)
-                        otherPed.DisableCollisionsThisFrame(localVehicle);
-                        // Other Player vs Local Hooked (if present)
-                        otherPed.DisableCollisionsThisFrame(localHooked);
-
-                        // Other Vehicle vs Local Player
-                        otherVehicle?.DisableCollisionsThisFrame(localPed);
-                        // Other Vehicle vs Local Vehicle (if present)
-                        otherVehicle?.DisableCollisionsThisFrame(localVehicle);
-                        // Other Vehicle vs Local Hooked (if present)
-                        otherVehicle?.DisableCollisionsThisFrame(localHooked);
-
-                        // Other Hooked vs Local Player
-                        otherHooked?.DisableCollisionsThisFrame(localPed);
-                        // Other Hooked vs Local Vehicle (if present)
-                        otherHooked?.DisableCollisionsThisFrame(localVehicle);
-                        // Other Hooked vs Local Hooked (if present)
-                        otherHooked?.DisableCollisionsThisFrame(localHooked);
+                        continue;
                     }
+
+                    // Otherwise, disable the collisions
+
+                    // Local Player vs Other Player
+                    localPed.DisableCollisionsThisFrame(otherPed);
+                    // Local Player vs Other Vehicle (if present)
+                    localPed.DisableCollisionsThisFrame(otherVehicle);
+                    // Local Player vs Other Hooked (if present)
+                    localPed.DisableCollisionsThisFrame(otherHooked);
+
+                    // Local Vehicle vs Other Player
+                    localVehicle?.DisableCollisionsThisFrame(otherPed);
+                    // Local Vehicle vs Other Vehicle (if present)
+                    localVehicle?.DisableCollisionsThisFrame(otherVehicle);
+                    // Local Vehicle vs Other Hooked (if present)
+                    localVehicle?.DisableCollisionsThisFrame(otherHooked);
+
+                    // Local Hooked vs Other Player
+                    localHooked?.DisableCollisionsThisFrame(otherPed);
+                    // Local Hooked vs Other Vehicle (if present)
+                    localHooked?.DisableCollisionsThisFrame(otherVehicle);
+                    // Local Hooked vs Other Hooked (if present)
+                    localHooked?.DisableCollisionsThisFrame(otherHooked);
+
+
+                    // Other Player vs Local Player
+                    otherPed.DisableCollisionsThisFrame(localPed);
+                    // Other Player vs Local Vehicle (if present)
+                    otherPed.DisableCollisionsThisFrame(localVehicle);
+                    // Other Player vs Local Hooked (if present)
+                    otherPed.DisableCollisionsThisFrame(localHooked);
+
+                    // Other Vehicle vs Local Player
+                    otherVehicle?.DisableCollisionsThisFrame(localPed);
+                    // Other Vehicle vs Local Vehicle (if present)
+                    otherVehicle?.DisableCollisionsThisFrame(localVehicle);
+                    // Other Vehicle vs Local Hooked (if present)
+                    otherVehicle?.DisableCollisionsThisFrame(localHooked);
+
+                    // Other Hooked vs Local Player
+                    otherHooked?.DisableCollisionsThisFrame(localPed);
+                    // Other Hooked vs Local Vehicle (if present)
+                    otherHooked?.DisableCollisionsThisFrame(localVehicle);
+                    // Other Hooked vs Local Hooked (if present)
+                    otherHooked?.DisableCollisionsThisFrame(localHooked);
                 }
             }
 
