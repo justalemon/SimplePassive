@@ -69,17 +69,23 @@ namespace SimplePassive.Client
         [Tick]
         public async Task HandleCollisions()
         {
+            // Create some references to the local player ped and vehicle
+            Player localPlayer = Game.Player;
+            Ped localPed = localPlayer.Character;
+            Vehicle localVehicle = localPed.CurrentVehicle;
+            Vehicle localHooked = localVehicle?.GetHookedVehicle();
+
             // Set the alpha of the player vehicle to maximum if is present
-            if (Game.Player.Character.CurrentVehicle != null)
+            if (localVehicle != null)
             {
-                API.SetEntityAlpha(Game.Player.Character.CurrentVehicle.Handle, 255, 0);
+                API.SetEntityAlpha(localVehicle.Handle, 255, 0);
             }
 
             // Create a text for the debug mode
             string debugText = "Passive Players: ";
 
             // Get the activation of the local player for later use
-            bool localActivation = GetPlayerActivation(Game.Player.ServerId);
+            bool localActivation = GetPlayerActivation(localPlayer.ServerId);
 
             // If the local player has passive mode enabled
             if (localActivation)
@@ -91,7 +97,7 @@ namespace SimplePassive.Client
                     // If is not on this chunk, is probably on that event
 
                     // Disable the firing of weapons
-                    API.DisablePlayerFiring(Game.Player.Handle, true);
+                    API.DisablePlayerFiring(localPlayer.Handle, true);
                     // And disable the controls related to attacking
                     Game.DisableControlThisFrame(0, Control.MeleeAttack1);
                     Game.DisableControlThisFrame(0, Control.MeleeAttack2);
@@ -104,11 +110,6 @@ namespace SimplePassive.Client
                     Game.DisableControlThisFrame(0, Control.VehicleFlyAttack2);
                 }
             }
-
-            // Create some references to the local player ped and vehicle
-            Ped localPed = Game.Player.Character;
-            Vehicle localVehicle = localPed.CurrentVehicle;
-            Vehicle localHooked = localVehicle?.GetHookedVehicle();
 
             // Then, iterate over the list of players
             foreach (Player player in Players)
