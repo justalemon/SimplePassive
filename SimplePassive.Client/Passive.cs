@@ -132,11 +132,11 @@ namespace SimplePassive.Client
                     continue;
                 }
 
-                // Select the correct entities for both players
-                Entity other = (Entity)player.Character.CurrentVehicle ?? player.Character;
-
                 // Set the correct alpha for the other entities (just in case the resource restarted with passive enabled)
-                API.SetEntityAlpha(other.Handle, disableCollisions && !API.GetIsTaskActive(player.Character.Handle, 2) && Game.Player.Character.CurrentVehicle != other ? Convars.Alpha : 255, 0);
+                int alpha = disableCollisions && !API.GetIsTaskActive(otherPed.Handle, 2) && localVehicle != otherVehicle ? Convars.Alpha : 255;
+                otherPed.SetAlpha(alpha);
+                otherVehicle?.SetAlpha(alpha);
+                otherHooked?.SetAlpha(alpha);
 
                 // If passive mode is activated by the other or local player
                 if (disableCollisions)
