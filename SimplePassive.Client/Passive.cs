@@ -78,7 +78,7 @@ namespace SimplePassive.Client
             // Set the alpha of the player vehicle to maximum if is present
             if (localVehicle != null)
             {
-                API.SetEntityAlpha(localVehicle.Handle, 255, 0);
+                API.ResetEntityAlpha(localVehicle.Handle);
             }
 
             // Create a text for the debug mode
