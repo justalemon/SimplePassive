@@ -142,9 +142,9 @@ namespace SimplePassive.Client
                 if (disableCollisions)
                 {
                     // If the other player is using a vehicle, we are seated on it and we are not the driver, continue
-                    if (player.Character.CurrentVehicle != null &&
-                        API.IsPedInVehicle(player.Character.CurrentVehicle.Handle, Game.Player.Character.Handle, false) &&
-                        player.Character.CurrentVehicle.GetPedOnSeat(VehicleSeat.Driver) != Game.Player.Character)
+                    if (otherVehicle != null &&
+                        API.IsPedInVehicle(otherVehicle.Handle, localPed.Handle, false) &&
+                        otherVehicle.GetPedOnSeat(VehicleSeat.Driver) != localPed)
                     {
                         continue;
                     }
