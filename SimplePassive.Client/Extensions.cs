@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using CitizenFX.Core.UI;
 using System.Drawing;
 
 namespace SimplePassive.Client
@@ -57,7 +58,7 @@ namespace SimplePassive.Client
         /// Draws a debug symbol on top of the entity.
         /// </summary>
         /// <param name="entity">The entity to use.</param>
-        public static void DrawDebugMarker(this Entity entity, Color color)
+        public static void DrawDebugMarker(this Entity entity, int r, int g, int b)
         {
             // If the entity does not exists, return
             if (entity == null || !entity.Exists())
@@ -65,10 +66,18 @@ namespace SimplePassive.Client
                 return;
             }
 
-            // Otherwise, get the location of the entity and add a single unit
-            Vector3 position = entity.Position + new Vector3(0, 0, Convars.DebugHeight);
-            // And draw a marker on top of it
-            World.DrawMarker(MarkerType.UpsideDownCone, position, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), color);
+            // If the entity is on the screen
+            if (entity.IsOnScreen)
+            {
+                // Get the position 
+                PointF pos = Screen.WorldToScreen(entity.Position);
+                // And draw a text on the same position
+                new Text(entity.Handle.ToString(), pos, 1)
+                {
+                    Color = Color.FromArgb(r, g, b),
+                    Centered = true
+                }.Draw();
+            }
         }
         /// <summary>
         /// Disables the collisions between two entities during the next frame.
