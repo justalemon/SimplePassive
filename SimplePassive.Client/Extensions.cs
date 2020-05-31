@@ -66,7 +66,7 @@ namespace SimplePassive.Client
             }
 
             // Otherwise, get the location of the entity and add a single unit
-            Vector3 position = entity.Position + new Vector3(0, 0, 1);
+            Vector3 position = entity.Position + new Vector3(0, 0, Convars.DebugHeight);
             // And draw a marker on top of it
             World.DrawMarker(MarkerType.UpsideDownCone, position, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1), color);
         }

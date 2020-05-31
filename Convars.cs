@@ -19,6 +19,10 @@ namespace SimplePassive
 
 #if CLIENT
         /// <summary>
+        /// The height of the entity debug markers.
+        /// </summary>
+        public static int DebugHeight => API.GetConvarInt("simplepassive_debugheight", 1);
+        /// <summary>
         /// The Alpha/Transparency for entities that have passive mode enabled.
         /// </summary>
         public static int Alpha => API.GetConvarInt("simplepassive_alpha", 200);
