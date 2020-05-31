@@ -268,19 +268,6 @@ namespace SimplePassive.Client
 
 #if DEBUG
 
-        /// <summary>
-        /// Lists the activations that the Client knows.
-        /// </summary>
-        [Command("listactivations")]
-        public void ListActivationsCommand()
-        {
-            // Just iterate and print every single one of them
-            Debug.WriteLine("Known Activations:");
-            foreach (KeyValuePair<int, bool> activation in activations)
-            {
-                Debug.WriteLine($"{activation.Key} set to {activation.Value}");
-            }
-        }
 
 #endif
 
