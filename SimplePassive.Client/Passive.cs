@@ -19,6 +19,10 @@ namespace SimplePassive.Client
         /// The activation of passive mode for specific players.
         /// </summary>
         public readonly Dictionary<int, bool> activations = new Dictionary<int, bool>();
+        /// <summary>
+        /// Print the entities changed during the next game tick.
+        /// </summary>
+        public bool printNextTick = false;
 
         #endregion
 
@@ -160,47 +164,47 @@ namespace SimplePassive.Client
                     // Otherwise, disable the collisions
 
                     // Local Player vs Other Player
-                    localPed.DisableCollisionsThisFrame(otherPed);
+                    localPed.DisableCollisionsThisFrame(otherPed, printNextTick);
                     // Local Player vs Other Vehicle (if present)
-                    localPed.DisableCollisionsThisFrame(otherVehicle);
+                    localPed.DisableCollisionsThisFrame(otherVehicle, printNextTick);
                     // Local Player vs Other Hooked (if present)
-                    localPed.DisableCollisionsThisFrame(otherHooked);
+                    localPed.DisableCollisionsThisFrame(otherHooked, printNextTick);
 
                     // Local Vehicle vs Other Player
-                    localVehicle?.DisableCollisionsThisFrame(otherPed);
+                    localVehicle?.DisableCollisionsThisFrame(otherPed, printNextTick);
                     // Local Vehicle vs Other Vehicle (if present)
-                    localVehicle?.DisableCollisionsThisFrame(otherVehicle);
+                    localVehicle?.DisableCollisionsThisFrame(otherVehicle, printNextTick);
                     // Local Vehicle vs Other Hooked (if present)
-                    localVehicle?.DisableCollisionsThisFrame(otherHooked);
+                    localVehicle?.DisableCollisionsThisFrame(otherHooked, printNextTick);
 
                     // Local Hooked vs Other Player
-                    localHooked?.DisableCollisionsThisFrame(otherPed);
+                    localHooked?.DisableCollisionsThisFrame(otherPed, printNextTick);
                     // Local Hooked vs Other Vehicle (if present)
-                    localHooked?.DisableCollisionsThisFrame(otherVehicle);
+                    localHooked?.DisableCollisionsThisFrame(otherVehicle, printNextTick);
                     // Local Hooked vs Other Hooked (if present)
-                    localHooked?.DisableCollisionsThisFrame(otherHooked);
+                    localHooked?.DisableCollisionsThisFrame(otherHooked, printNextTick);
 
 
                     // Other Player vs Local Player
-                    otherPed.DisableCollisionsThisFrame(localPed);
+                    otherPed.DisableCollisionsThisFrame(localPed, printNextTick);
                     // Other Player vs Local Vehicle (if present)
-                    otherPed.DisableCollisionsThisFrame(localVehicle);
+                    otherPed.DisableCollisionsThisFrame(localVehicle, printNextTick);
                     // Other Player vs Local Hooked (if present)
-                    otherPed.DisableCollisionsThisFrame(localHooked);
+                    otherPed.DisableCollisionsThisFrame(localHooked, printNextTick);
 
                     // Other Vehicle vs Local Player
-                    otherVehicle?.DisableCollisionsThisFrame(localPed);
+                    otherVehicle?.DisableCollisionsThisFrame(localPed, printNextTick);
                     // Other Vehicle vs Local Vehicle (if present)
-                    otherVehicle?.DisableCollisionsThisFrame(localVehicle);
+                    otherVehicle?.DisableCollisionsThisFrame(localVehicle, printNextTick);
                     // Other Vehicle vs Local Hooked (if present)
-                    otherVehicle?.DisableCollisionsThisFrame(localHooked);
+                    otherVehicle?.DisableCollisionsThisFrame(localHooked, printNextTick);
 
                     // Other Hooked vs Local Player
-                    otherHooked?.DisableCollisionsThisFrame(localPed);
+                    otherHooked?.DisableCollisionsThisFrame(localPed, printNextTick);
                     // Other Hooked vs Local Vehicle (if present)
-                    otherHooked?.DisableCollisionsThisFrame(localVehicle);
+                    otherHooked?.DisableCollisionsThisFrame(localVehicle, printNextTick);
                     // Other Hooked vs Local Hooked (if present)
-                    otherHooked?.DisableCollisionsThisFrame(localHooked);
+                    otherHooked?.DisableCollisionsThisFrame(localHooked, printNextTick);
 
                     // On debug mode, draw markers over the other player entities (if found)
                     if (Convars.Debug)
@@ -219,6 +223,9 @@ namespace SimplePassive.Client
             {
                 new Text(debugText, new PointF(0, 0), 0.5f).Draw();
             }
+
+            // Finally, disable the printing during the next tick (if enabled)
+            printNextTick = false;
         }
 
         #endregion
@@ -266,10 +273,18 @@ namespace SimplePassive.Client
 
         #region Debug Commands
 
-#if DEBUG
-
-
-#endif
+        /// <summary>
+        /// Prints the collisions changed during the next tick.
+        /// </summary>
+        [Command("passiveprinttick")]
+        public void ShowNextTickCommand()
+        {
+            // If debug mode is enabled, set printNextTick to true
+            if (Convars.Debug)
+            {
+                printNextTick = true;
+            }
+        }
 
         #endregion
     }
