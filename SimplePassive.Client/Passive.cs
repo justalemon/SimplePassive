@@ -111,6 +111,14 @@ namespace SimplePassive.Client
                 }
             }
 
+            // On debug mode, draw markers on top of the player entities
+            if (Convars.Debug)
+            {
+                localPed?.DrawDebugMarker(Color.White);
+                localVehicle?.DrawDebugMarker(Color.White);
+                localHooked?.DrawDebugMarker(Color.White);
+            }
+
             // Then, iterate over the list of players
             foreach (Player player in Players)
             {
@@ -193,6 +201,14 @@ namespace SimplePassive.Client
                     otherHooked?.DisableCollisionsThisFrame(localVehicle);
                     // Other Hooked vs Local Hooked (if present)
                     otherHooked?.DisableCollisionsThisFrame(localHooked);
+
+                    // On debug mode, draw markers over the other player entities (if found)
+                    if (Convars.Debug)
+                    {
+                        otherPed?.DrawDebugMarker(Color.Pink);
+                        otherVehicle?.DrawDebugMarker(Color.Pink);
+                        otherHooked?.DrawDebugMarker(Color.Pink);
+                    }
                 }
             }
 
