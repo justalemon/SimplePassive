@@ -17,6 +17,12 @@ namespace SimplePassive.Client
         /// <returns>The Vehicle that is being hooked, null if there is nothing.</returns>
         public static Vehicle GetHookedVehicle(this Vehicle vehicle)
         {
+            // If the vehicle is invalid, return
+            if (vehicle == null || !vehicle.Exists())
+            {
+                return null;
+            }
+
             // Start by trying to get the vehicle attached as a trailer
             int trailer = 0;
             if (API.GetVehicleTrailerVehicle(vehicle.Handle, ref trailer))
