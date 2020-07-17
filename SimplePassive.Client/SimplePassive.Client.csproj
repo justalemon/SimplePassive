@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Client" Version="1.0.2714">
+    <PackageReference Include="CitizenFX.Core.Client" Version="1.0.2717">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <Compile Include="../Convars.cs" />
