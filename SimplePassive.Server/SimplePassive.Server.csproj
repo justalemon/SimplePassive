@@ -5,7 +5,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>$(AssemblyName).net</AssemblyName>
-    <DefineConstants>SERVER</DefineConstants>
+    <DefineConstants>FIVEM,SERVER</DefineConstants>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
