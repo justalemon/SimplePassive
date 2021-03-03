@@ -6,6 +6,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>$(AssemblyName).net</AssemblyName>
     <DefineConstants>FIVEM,SERVER</DefineConstants>
+    <Version>1.0</Version>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
