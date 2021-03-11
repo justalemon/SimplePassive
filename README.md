@@ -25,6 +25,7 @@ Feel free to check out the [wiki](https://github.com/justalemon/SimplePassive/wi
 
 [appveyor-img]: https://img.shields.io/appveyor/ci/justalemon/simplepassive.svg?label=appveyor
 [appveyor-url]: https://ci.appveyor.com/project/justalemon/simplepassive
+[patreon-img]: https://img.shields.io/badge/support-patreon-FF424D.svg
 [patreon-url]: https://www.patreon.com/lemonchan
 [paypal-img]: https://img.shields.io/badge/support-paypal-0079C1.svg
 [paypal-url]: https://paypal.me/justalemon
