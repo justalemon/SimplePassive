@@ -192,8 +192,7 @@ namespace SimplePassive.Client
                     // Other Player vs Local Hooked (if present)
                     otherPed.DisableCollisionsThisFrame(localHooked, printNextTick);
                     // Disable cam collision for other ped
-                    if (otherPed != null)
-                        API.DisableCamCollisionForEntity(otherPed.Handle);
+                    API.DisableCamCollisionForEntity(otherPed.Handle);
 
                     // Other Vehicle vs Local Player
                     otherVehicle?.DisableCollisionsThisFrame(localPed, printNextTick);
