@@ -192,7 +192,8 @@ namespace SimplePassive.Client
                     // Other Player vs Local Hooked (if present)
                     otherPed.DisableCollisionsThisFrame(localHooked, printNextTick);
                     // Disable cam collision for other ped
-                    API.DisableCamCollisionForEntity(otherPed.Handle);
+                    if (otherPed != null)
+                        API.DisableCamCollisionForEntity(otherPed.Handle);
 
                     // Other Vehicle vs Local Player
                     otherVehicle?.DisableCollisionsThisFrame(localPed, printNextTick);
@@ -201,7 +202,8 @@ namespace SimplePassive.Client
                     // Other Vehicle vs Local Hooked (if present)
                     otherVehicle?.DisableCollisionsThisFrame(localHooked, printNextTick);
                     // Disable cam collision for other vehicle
-                    API.DisableCamCollisionForEntity(otherVehicle.Handle);
+                    if (otherVehicle != null)
+                        API.DisableCamCollisionForEntity(otherVehicle.Handle);
 
                     // Other Hooked vs Local Player
                     otherHooked?.DisableCollisionsThisFrame(localPed, printNextTick);
@@ -210,7 +212,8 @@ namespace SimplePassive.Client
                     // Other Hooked vs Local Hooked (if present)
                     otherHooked?.DisableCollisionsThisFrame(localHooked, printNextTick);
                     // Disable cam collision for other vehicle trailer if hooked
-                    API.DisableCamCollisionForEntity(otherHooked.Handle);
+                    if (otherHooked != null)
+                        API.DisableCamCollisionForEntity(otherHooked.Handle);
 
                     // On debug mode, draw markers over the other player entities (if found)
                     if (Convars.Debug)
