@@ -15,14 +15,10 @@ namespace SimplePassive.Client
     {
         #region Fields
 
-        /// <summary>
-        /// The activation of passive mode for specific players.
-        /// </summary>
-        public readonly Dictionary<int, bool> activations = new Dictionary<int, bool>();
-        /// <summary>
-        /// Print the entities changed during the next game tick.
-        /// </summary>
-        public bool printNextTick = false;
+        private readonly Dictionary<int, bool> activations = new Dictionary<int, bool>();
+        private bool printNextTick = false;
+        private Vehicle lastPlayerVehicle = null;
+        private Vehicle lastHookedVehicle = null;
 
         #endregion
 
@@ -90,6 +86,37 @@ namespace SimplePassive.Client
 
             // Get the activation of the local player for later use
             bool localActivation = GetPlayerActivation(localPlayer.ServerId);
+            
+            // Make sure that the player is invincible if needed
+            if (Convars.MakeInvincible)
+            {
+                localPed.IsInvincible = localActivation;
+                if (localVehicle != null)
+                {
+                    localVehicle.IsInvincible = localActivation;
+                }
+                if (localHooked != null)
+                {
+                    localHooked.IsInvincible = localActivation;
+                }
+
+                if (localVehicle != lastPlayerVehicle)
+                {
+                    if (lastPlayerVehicle != null && lastPlayerVehicle.Exists() && (lastPlayerVehicle.Driver == null || lastPlayerVehicle.Driver != localPed))
+                    {
+                        lastPlayerVehicle.IsInvincible = false;
+                    }
+                    lastPlayerVehicle = localVehicle;
+                }
+                if (localHooked != lastHookedVehicle)
+                {
+                    if (lastHookedVehicle != null && lastHookedVehicle.Exists() && (lastHookedVehicle.Driver == null || lastHookedVehicle.Driver != localPed))
+                    {
+                        lastHookedVehicle.IsInvincible = false;
+                    }
+                    lastHookedVehicle = localHooked;
+                }
+            }
 
             // If the local player has passive mode enabled
             if (localActivation)

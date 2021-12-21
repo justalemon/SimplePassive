@@ -16,6 +16,10 @@ namespace SimplePassive
         /// If debugging information should be shown on the console and client screen.
         /// </summary>
         public static bool Debug => Convert.ToBoolean(API.GetConvarInt("simplepassive_debug", 0));
+        /// <summary>
+        /// If the ped should be made invincible when in passive.
+        /// </summary>
+        public static bool MakeInvincible => Convert.ToBoolean(API.GetConvarInt("simplepassive_makeinvincible", 0));
 
 #if CLIENT
         /// <summary>
