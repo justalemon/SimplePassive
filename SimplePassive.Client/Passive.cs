@@ -130,12 +130,17 @@ namespace SimplePassive.Client
                     // Disable the firing of weapons
                     API.DisablePlayerFiring(localPlayer.Handle, true);
                     // And disable the controls related to attacking
+                    Game.DisableControlThisFrame(0, Control.Reload);
                     Game.DisableControlThisFrame(0, Control.MeleeAttack1);
                     Game.DisableControlThisFrame(0, Control.MeleeAttack2);
+                    Game.DisableControlThisFrame(0, Control.MeleeAttackLight);
+                    Game.DisableControlThisFrame(0, Control.MeleeAttackHeavy);
+                    Game.DisableControlThisFrame(0, Control.MeleeAttackAlternate);
                     Game.DisableControlThisFrame(0, Control.Attack);
                     Game.DisableControlThisFrame(0, Control.Attack2);
                     Game.DisableControlThisFrame(0, Control.VehicleAttack);
                     Game.DisableControlThisFrame(0, Control.VehicleAttack2);
+                    Game.DisableControlThisFrame(0, Control.VehiclePassengerAim);
                     Game.DisableControlThisFrame(0, Control.VehiclePassengerAttack);
                     Game.DisableControlThisFrame(0, Control.VehicleFlyAttack);
                     Game.DisableControlThisFrame(0, Control.VehicleFlyAttack2);
