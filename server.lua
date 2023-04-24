@@ -80,8 +80,33 @@ function SetPlayerOverride(playerSrc, override)
     return true
 end
 
+function ClearPlayerOverride(playerSrc)
+    local player = GetPlayer(playerSrc)
+
+    if player == nil then
+        return false
+    end
+
+    if Overrides[player] == nil then
+        return false
+    end
+
+    Overrides[player] = nil
+    Debug("Passive Override of " .. GetPlayerName(player) .. " (" .. player .. ") was removed")
+    return true
+end
+
+function OnPlayerDropped()
+    local player = tonumber(source)
+
+    TriggerClientEvent("simplepassive:doCleanup", -1, player)
+    Overrides[player] = nil
+    Activations[player] = nil
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
 exports("setOverride", SetPlayerOverride)
 exports("clearOverride", ClearPlayerOverride)
+AddEventHandler("playerDropped", OnPlayerDropped)
