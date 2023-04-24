@@ -10,40 +10,6 @@ namespace SimplePassive.Server
     /// </summary>
     public class Passive : BaseScript
     {
-        #region Constructor
-
-        public Passive()
-        {
-            Exports.Add("clearOverride", new Func<int, bool>(ClearOverride));
-        }
-
-        #endregion
-
-        #region Export
-
-        /// <summary>
-        /// Clears the override of a player.
-        /// </summary>
-        /// <param name="id">The target player.</param>
-        /// <returns>True if the override was cleared, False if no override was present.</returns>
-        public bool ClearOverride(int id)
-        {
-            // If is present, remove it and return
-            if (overrides.ContainsKey(id))
-            {
-                overrides.Remove(id);
-                if (Convars.Debug)
-                {
-                    Debug.WriteLine($"Passive Mode Override of {id} was removed");
-                }
-                return true;
-            }
-            // Otherwise, say that is not present
-            return false;
-        }
-
-        #endregion
-
         #region Network Events
 
         /// <summary>
