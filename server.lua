@@ -40,7 +40,7 @@ function SetPlayerActivation(playerSrc, activation)
     end
 
     Activations[playerSrc] = activation
-    TriggerClientEvent("simplepassive:activationChanged", tonumber(playerSrc), activation)
+    TriggerClientEvent("simplepassive:activationChanged", -1, tonumber(playerSrc), activation)
     Debug("Passive Activation of " .. GetPlayerName(playerSrc) .. " (" .. playerSrc .. ") is now " .. activation)
     return true
 end
