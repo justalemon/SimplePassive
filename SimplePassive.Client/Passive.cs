@@ -24,36 +24,8 @@ namespace SimplePassive.Client
 
         public Passive()
         {
-            // Add the exports
-            Exports.Add("getActivation", new Func<bool>(() => GetPlayerActivation(Game.Player.ServerId)));
-            Exports.Add("setActivation", new Action<bool>(SetPassiveActivation));
             // And tell the server that this client is ready to work
             TriggerServerEvent("simplepassive:initialized");
-        }
-
-        #endregion
-
-        #region Tools
-
-        /// <summary>
-        /// Gets the activation of passive mode for a specific player.
-        /// </summary>
-        /// <param name="player">The player to check.</param>
-        /// <returns>True, False or the default value.</returns>
-        public bool GetPlayerActivation(int player) => activations.ContainsKey(player) ? activations[player] : Convars.Default;
-
-        #endregion
-
-        #region Exports
-
-        public void SetPassiveActivation(bool activation)
-        {
-            // Tell the server to change the activation of the current player
-            if (Convars.Debug)
-            {
-                Debug.WriteLine($"Requesting server to change the activation to {activation}");
-            }
-            TriggerServerEvent("simplepassive:setPassive", activation);
         }
 
         #endregion

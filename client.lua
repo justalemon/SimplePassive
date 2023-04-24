@@ -56,3 +56,24 @@ function SetAlpha(entity, alpha)
         SetEntityAlpha(entity, alpha, 0)
     end
 end
+
+function GetPlayerActivation()
+    local playerId = PlayerId()
+    local player = GetPlayerServerId(playerId)
+    local activation = Activations[player]
+
+    if activation ~= nil then
+        return activation
+    else
+        return GetDefaultActivation()
+    end
+end
+
+function SetPlayerActivation(activation)
+    activation = not (not activation)
+    Debug("Requesting server to change the activation to " .. activation)
+    TriggerServerEvent("simplepassive:setPassive", activation)
+end
+
+exports("getActivation", GetPlayerActivation)
+exports("setActivation", SetPlayerActivation)
