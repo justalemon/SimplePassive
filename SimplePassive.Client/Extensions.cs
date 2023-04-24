@@ -51,35 +51,5 @@ namespace SimplePassive.Client
         }
 
         #endregion
-
-        #region Entities
-
-        /// <summary>
-        /// Draws a debug symbol on top of the entity.
-        /// </summary>
-        /// <param name="entity">The entity to use.</param>
-        public static void DrawDebugMarker(this Entity entity, int r, int g, int b)
-        {
-            // If the entity does not exists, return
-            if (entity == null || !entity.Exists())
-            {
-                return;
-            }
-
-            // If the entity is on the screen
-            if (entity.IsOnScreen)
-            {
-                // Get the position 
-                PointF pos = Screen.WorldToScreen(entity.Position);
-                // And draw a text on the same position
-                new Text(entity.Handle.ToString(), pos, 1)
-                {
-                    Color = Color.FromArgb(r, g, b),
-                    Centered = true
-                }.Draw();
-            }
-        }
-
-        #endregion
     }
 }

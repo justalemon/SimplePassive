@@ -1,3 +1,16 @@
+function DrawDebugMarker(entity, r, g, b)
+    if not DoesEntityExist(entity) or not IsEntityOnScreen(entity) then
+        return
+    end
+
+    local _, x, y = GetScreenCoordFromWorldCoord()
+    BeginTextCommandDisplayText("CELL_EMAIL_BCON")
+    AddTextComponentSubstringPlayerName(tostring(entity))
+    SetTextColour(r, g, b, 255)
+    SetTextJustification(0)
+    EndTextCommandDisplayText(x, y)
+end
+
 function DisableCollisionsThisFrame(one, two, print)
     SetEntityNoCollisionEntity(one, two, true)
     SetEntityNoCollisionEntity(two, one, true)
