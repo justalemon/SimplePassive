@@ -4,7 +4,7 @@ Activations = {}
 Overrides = {}
 
 function Debug(message)
-    if GetConvarInt("simplepassive_debug", 0) == 0 then
+    if not (not GetConvarInt("simplepassive_debug", 0)) then
         return
     end
 
@@ -12,7 +12,7 @@ function Debug(message)
 end
 
 function GetDefaultActivation()
-    return GetConvarInt("simplepassive_default", 0) ~= 0
+    return not (not GetConvarInt("simplepassive_default", 0))
 end
 
 function GetPlayer(playerSrc)
@@ -51,6 +51,7 @@ end
 
 function SetPlayerActivation(playerSrc, activation)
     local player = GetPlayer(playerSrc)
+    local activation = not (not activation)
 
     if player == nil then
         return false
@@ -69,6 +70,7 @@ end
 
 function SetPlayerOverride(playerSrc, override)
     local player = GetPlayer(playerSrc)
+    local override = not (not override)
 
     if player == nil then
         return false
@@ -126,6 +128,7 @@ end
 
 function SetPassiveSelf(activation)
     local player = GetPlayer(source)
+    local activation = not (not activation)
 
     if player == nil then
         return false
