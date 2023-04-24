@@ -1,5 +1,7 @@
 -- The activations sent by the server
 Activations = {}
+-- Whether the next set of collision changes should be printed on the console
+PrintCollisionChanges = false
 
 function GetHookedVehicle(vehicle)
     if not DoesEntityExist(vehicle) and not IsEntityAVehicle(vehicle) then
@@ -38,11 +40,11 @@ function DrawDebugMarker(entity, r, g, b)
     EndTextCommandDisplayText(x, y)
 end
 
-function DisableCollisionsThisFrame(one, two, print)
+function DisableCollisionsThisFrame(one, two)
     SetEntityNoCollisionEntity(one, two, true)
     SetEntityNoCollisionEntity(two, one, true)
 
-    if print then
+    if PrintCollisionChanges then
         print("Disabled collisions between " .. one .. " and " .. two .. " .");
     end
 end
