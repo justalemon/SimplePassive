@@ -14,40 +14,12 @@ namespace SimplePassive.Server
 
         public Passive()
         {
-            Exports.Add("setOverride", new Func<int, bool, bool>(SetPlayerOverride));
             Exports.Add("clearOverride", new Func<int, bool>(ClearOverride));
         }
 
         #endregion
 
         #region Export
-
-        /// <summary>
-        /// Overrides the activation of a player.
-        /// </summary>
-        /// <param name="id">The ID of the player.</param>
-        /// <param name="activation">The desired activation.</param>
-        /// <returns>True if we succeeded, False otherwise.</returns>
-        public bool SetPlayerOverride(int id, bool activation)
-        {
-            // Try to get the player
-            Player player = Players[id];
-            // If is not valid, return
-            if (player == null)
-            {
-                return false;
-            }
-            // Add the override and send it
-            overrides[id] = activation;
-            TriggerClientEvent("simplepassive:activationChanged", id, activation);
-
-            // Finally, say that this succeeded
-            if (Convars.Debug)
-            {
-                Debug.WriteLine($"Passive Activation of {player.Handle} is now overridden ({activation})");
-            }
-            return true;
-        }
 
         /// <summary>
         /// Clears the override of a player.

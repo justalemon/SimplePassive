@@ -51,6 +51,23 @@ function IsPlayerOverridden(playerSrc)
     return Overrides[playerSrc] ~= nil
 end
 
+function SetPlayerOverride(playerSrc, override)
+    -- do this as it might be passed as an int from C#
+    playerSrc = tostring(playerSrc)
+
+    -- Best option I could find
+    -- Returns nil when the playerSrc is not valid, and a number when valid
+    if GetPlayerGuid(playerSrc) == nil then
+        return false
+    end
+
+    Overrides[playerSrc] = override
+    TriggerClientEvent("simplepassive:activationChanged", -1, tonumber(playerSrc), override)
+    Debug("Passive Activation of " .. GetPlayerName(playerSrc) .. " (" .. playerSrc .. ") is overriden to " .. override)
+    return true
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
+exports("setOverride", SetPlayerOverride)
