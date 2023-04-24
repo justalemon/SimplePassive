@@ -29,4 +29,21 @@ function GetPlayerActivation(playerId)
     return GetDefaultActivation()
 end
 
+function SetPlayerActivation(playerSrc, activation)
+    -- do this as it might be passed as an int from C#
+    playerSrc = tostring(playerSrc)
+
+    -- Best option I could find
+    -- Returns nil when the playerSrc is not valid, and a number when valid
+    if GetPlayerGuid(playerSrc) == nil then
+        return false
+    end
+
+    Activations[playerSrc] = activation
+    TriggerClientEvent("simplepassive:activationChanged", tonumber(playerSrc), activation)
+    Debug("Passive Activation of " .. GetPlayerName(playerSrc) .. " (" .. playerSrc .. ") is now " .. activation)
+    return true
+end
+
 exports("getActivation", GetPlayerActivation)
+exports("setActivation", SetPlayerActivation)
