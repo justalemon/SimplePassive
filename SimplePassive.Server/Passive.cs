@@ -10,19 +10,6 @@ namespace SimplePassive.Server
     /// </summary>
     public class Passive : BaseScript
     {
-        #region Fields
-
-        /// <summary>
-        /// The activation of passive mode for specific players.
-        /// </summary>
-        public readonly Dictionary<int, bool> activations = new Dictionary<int, bool>();
-        /// <summary>
-        /// The activations that override the dictionary above.
-        /// </summary>
-        public readonly Dictionary<int, bool> overrides = new Dictionary<int, bool>();
-
-        #endregion
-
         #region Tools
 
         /// <summary>
