@@ -188,6 +188,17 @@ function OnClearCommand(source, args, raw)
     end
 end
 
+function OnOverridesCommand(source, args, raw)
+    if #Overrides == 0 then
+        print("There are no Passive Mode Overrides in place.")
+        return
+    end
+
+    for player, activation in pairs(Activations) do
+        print("\t" .. player .. " set to " .. activation)
+    end
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
@@ -198,3 +209,4 @@ AddEventHandler("simplepassive:initialized", OnPlayerInitialized)
 AddEventHandler("simplepassive:setPassive", SetPassiveSelf)
 RegisterCommand("passiveoverride", OnOverrideCommand, true)
 RegisterCommand("passiveclear", OnClearCommand, true)
+RegisterCommand("passiveoverrides", OnOverridesCommand, true)

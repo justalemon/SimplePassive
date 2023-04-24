@@ -12,26 +12,6 @@ namespace SimplePassive.Server
     {
         #region Commands
 
-        /// <summary>
-        /// Shows the current overrides in the server.
-        /// </summary>
-        [Command("passiveoverrides", Restricted = true)]
-        public void OverridesCommand()
-        {
-            // If there are no overrides set, say it and return
-            if (overrides.Count == 0)
-            {
-                Debug.WriteLine($"There are no Passive Mode Overrides in place.");
-                return;
-            }
-
-            // Otherwise, list them one by one
-            Debug.WriteLine($"Current Passive Mode Overrides:");
-            foreach (var activation in overrides)
-            {
-                Debug.WriteLine($"\t{activation.Key} set to {activation.Value}");
-            }
-        }
 
         /// <summary>
         /// Command that toggles the passive mode activation of the player.
