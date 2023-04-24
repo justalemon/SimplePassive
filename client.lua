@@ -77,7 +77,7 @@ function GetPlayerActivation(player)
     end
 end
 
-function SetPlayerActivation(activation)
+function SetLocalPlayerActivation(activation)
     activation = not (not activation)
     Debug("Requesting server to change the activation to " .. activation)
     TriggerServerEvent("simplepassive:setPassive", activation)
@@ -88,5 +88,5 @@ function Initialize()
 end
 
 exports("getActivation", GetLocalPlayerActivation)
-exports("setActivation", SetPlayerActivation)
+exports("setActivation", SetLocalPlayerActivation)
 Citizen.CreateThread(Initialize)
