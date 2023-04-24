@@ -3,18 +3,6 @@ Activations = {}
 -- The activations that override the dictionary above.
 Overrides = {}
 
-function Debug(message)
-    if not (not GetConvarInt("simplepassive_debug", 0)) then
-        return
-    end
-
-    print(message)
-end
-
-function GetDefaultActivation()
-    return not (not GetConvarInt("simplepassive_default", 0))
-end
-
 function GetPlayer(playerSrc)
     -- do this as it might be passed as an int from C#
     local handle = tonumber(playerSrc)
