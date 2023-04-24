@@ -10,31 +10,6 @@ namespace SimplePassive.Server
     /// </summary>
     public class Passive : BaseScript
     {
-        #region Tools
-
-        /// <summary>
-        /// Gets the activation of passive mode for a specific player.
-        /// </summary>
-        /// <param name="player">The player to check.</param>
-        /// <returns>True, False or the default value.</returns>
-        public bool GetPlayerActivation(int player)
-        {
-            // If the player has an override active, return that
-            if (overrides.ContainsKey(player))
-            {
-                return overrides[player];
-            }
-            // If there is no override but there is a custom status, return that
-            else if (activations.ContainsKey(player))
-            {
-                return activations[player];
-            }
-            // Otherwise, just return the default value
-            return Convars.Default;
-        }
-
-        #endregion
-
         #region Constructor
 
         public Passive()
