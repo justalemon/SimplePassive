@@ -13,34 +13,6 @@ namespace SimplePassive.Server
         #region Network Events
 
         /// <summary>
-        /// Event triggered when a Client/Player has been initialized and is ready to work.
-        /// </summary>
-        [EventHandler("simplepassive:initialized")]
-        public void Initialized([FromSource]Player player)
-        {
-            // Convert the ID to an int
-            int id = int.Parse(player.Handle);
-
-            // Start by saving the activation of the local player
-            activations[id] = Convars.Default;
-            TriggerClientEvent("simplepassive:activationChanged", id, Convars.Default);
-
-            // Iterate over the players
-            foreach (Player srvPlayer in Players)
-            {
-                // Convert the handle to an int
-                int handle = int.Parse(srvPlayer.Handle);
-                // Get the activation of the player and send it
-                bool activation = GetPlayerActivation(handle);
-                player.TriggerEvent("simplepassive:activationChanged", handle, activation);
-            }
-            if (Convars.Debug)
-            {
-                Debug.WriteLine($"Player '{player.Name}' ({player.Handle}) received all passive activations");
-            }
-        }
-
-        /// <summary>
         /// Changes the activation for a player.
         /// </summary>
         [EventHandler("simplepassive:setPassive")]

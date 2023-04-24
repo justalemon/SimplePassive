@@ -104,9 +104,30 @@ function OnPlayerDropped()
     Activations[player] = nil
 end
 
+function OnPlayerInitialized()
+    local player = GetPlayer(source)
+
+    if player == nil then
+        return false
+    end
+
+    Activations[player] = GetDefaultActivation()
+
+    for _, otherPlayerSrc in ipairs(GetActivePlayers()) do
+        local otherPlayer = GetPlayer(otherPlayerSrc)
+
+        if otherPlayer ~= nil then
+            TriggerClientEvent("simplepassive:activationChanged", player, otherPlayer, GetPlayerActivation(otherPlayer));
+        end
+    end
+
+    Debug("Player " .. GetPlayerName(player) .. " (" .. player .. ") received all passive activations")
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
 exports("setOverride", SetPlayerOverride)
 exports("clearOverride", ClearPlayerOverride)
 AddEventHandler("playerDropped", OnPlayerDropped)
+AddEventHandler("simplepassive:initialized", OnPlayerInitialized)
