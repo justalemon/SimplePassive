@@ -102,24 +102,6 @@ namespace SimplePassive.Client
                 Debug.WriteLine($"Disabled collisions between {one.Handle} and {two.Handle}");
             }
         }
-        /// <summary>
-        /// Sets the alpha of an entity.
-        /// </summary>
-        /// <param name="entity">The entity to change the alpha.</param>
-        /// <param name="alpha">The alpha value to set.</param>
-        public static void SetAlpha(this Entity entity, int alpha)
-        {
-            // If the alpha is 255, reset the alpha
-            if (alpha == 255)
-            {
-                API.ResetEntityAlpha(entity.Handle);
-            }
-            // Otherwise, set it as usual
-            else
-            {
-                API.SetEntityAlpha(entity.Handle, alpha, 0);
-            }
-        }
 
         #endregion
     }
