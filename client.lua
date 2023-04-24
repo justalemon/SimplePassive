@@ -26,7 +26,8 @@ function DrawDebugMarker(entity, r, g, b)
         return
     end
 
-    local _, x, y = GetScreenCoordFromWorldCoord()
+    local pos = GetEntityCoords(entity, false)
+    local _, x, y = GetScreenCoordFromWorldCoord(pos.x, pos.y, pos.z)
     BeginTextCommandDisplayText("CELL_EMAIL_BCON")
     AddTextComponentSubstringPlayerName(tostring(entity))
     SetTextColour(r, g, b, 255)
