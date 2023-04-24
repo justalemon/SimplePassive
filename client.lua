@@ -75,5 +75,10 @@ function SetPlayerActivation(activation)
     TriggerServerEvent("simplepassive:setPassive", activation)
 end
 
+function Initialize()
+    TriggerServerEvent("simplepassive:initialized")
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
+Citizen.CreateThread(Initialize)
