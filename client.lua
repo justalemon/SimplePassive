@@ -57,9 +57,17 @@ function SetAlpha(entity, alpha)
     end
 end
 
-function GetPlayerActivation()
+function GetLocalPlayerActivation()
     local playerId = PlayerId()
     local player = GetPlayerServerId(playerId)
+    return GetPlayerActivation(player)
+end
+
+function GetPlayerActivation(player)
+    if not NetworkIsPlayerActive(player) then
+        return nil
+    end
+
     local activation = Activations[player]
 
     if activation ~= nil then
@@ -79,6 +87,6 @@ function Initialize()
     TriggerServerEvent("simplepassive:initialized")
 end
 
-exports("getActivation", GetPlayerActivation)
+exports("getActivation", GetLocalPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 Citizen.CreateThread(Initialize)
