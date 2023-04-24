@@ -32,25 +32,13 @@ namespace SimplePassive.Client
             // Create some references to the local player ped and vehicle
             Player localPlayer = Game.Player;
             Ped localPed = localPlayer.Character;
-            Vehicle localVehicle = localPed.CurrentVehicle;
-            Vehicle localHooked = localVehicle?.GetHookedVehicle();
-
-            // Set the alpha of the player vehicle to maximum if is present
-            if (localVehicle != null)
-            {
-                API.ResetEntityAlpha(localVehicle.Handle);
-            }
 
             // Create a text for the debug mode
             string debugText = "Passive Players: ";
-
-            // Get the activation of the local player for later use
-            bool localActivation = GetPlayerActivation(localPlayer.ServerId);
             
             // Make sure that the player is invincible if needed
             if (Convars.MakeInvincible)
             {
-                localPed.IsInvincible = localActivation;
                 if (localVehicle != null)
                 {
                     localVehicle.IsInvincible = localActivation;
@@ -78,35 +66,6 @@ namespace SimplePassive.Client
                 }
             }
 
-            // If the local player has passive mode enabled
-            if (localActivation)
-            {
-                // If the player is not allowed to fight other players
-                if (Convars.DisableCombat)
-                {
-                    // There are some values that we set on the activationChanged event
-                    // If is not on this chunk, is probably on that event
-
-                    // Disable the firing of weapons
-                    API.DisablePlayerFiring(localPlayer.Handle, true);
-                    // And disable the controls related to attacking
-                    Game.DisableControlThisFrame(0, Control.Reload);
-                    Game.DisableControlThisFrame(0, Control.MeleeAttack1);
-                    Game.DisableControlThisFrame(0, Control.MeleeAttack2);
-                    Game.DisableControlThisFrame(0, Control.MeleeAttackLight);
-                    Game.DisableControlThisFrame(0, Control.MeleeAttackHeavy);
-                    Game.DisableControlThisFrame(0, Control.MeleeAttackAlternate);
-                    Game.DisableControlThisFrame(0, Control.Attack);
-                    Game.DisableControlThisFrame(0, Control.Attack2);
-                    Game.DisableControlThisFrame(0, Control.VehicleAttack);
-                    Game.DisableControlThisFrame(0, Control.VehicleAttack2);
-                    Game.DisableControlThisFrame(0, Control.VehiclePassengerAim);
-                    Game.DisableControlThisFrame(0, Control.VehiclePassengerAttack);
-                    Game.DisableControlThisFrame(0, Control.VehicleFlyAttack);
-                    Game.DisableControlThisFrame(0, Control.VehicleFlyAttack2);
-                }
-            }
-
             // On debug mode, draw markers on top of the player entities
             if (Convars.Debug)
             {
@@ -118,94 +77,12 @@ namespace SimplePassive.Client
             // Then, iterate over the list of players
             foreach (Player player in Players)
             {
-                // Get the correct activation for this player
-                bool playerActivation = GetPlayerActivation(player.ServerId);
-                bool disableCollisions = playerActivation || localActivation;
-
                 // Add the activation onto the debug text
                 debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
-
-                // Save the ped and vehicle of the other player
-                Ped otherPed = player.Character;
-                Vehicle otherVehicle = otherPed.CurrentVehicle;
-                Vehicle otherHooked = otherVehicle?.GetHookedVehicle();
-
-                // If the player is the same as the local one, skip this iteration
-                if (player == localPlayer)
-                {
-                    continue;
-                }
-
-                // Set the correct alpha for the other entities (just in case the resource restarted with passive enabled)
-                int alpha = disableCollisions && !API.GetIsTaskActive(otherPed.Handle, 2) && localVehicle != otherVehicle ? Convars.Alpha : 255;
-                otherPed.SetAlpha(alpha);
-                otherVehicle?.SetAlpha(alpha);
-                otherHooked?.SetAlpha(alpha);
 
                 // If passive mode is activated by the other or local player
                 if (disableCollisions)
                 {
-                    // If the other player is using a vehicle, we are seated on it and we are not the driver, continue
-                    if (otherVehicle != null &&
-                        API.IsPedInVehicle(otherVehicle.Handle, localPed.Handle, false) &&
-                        otherVehicle.GetPedOnSeat(VehicleSeat.Driver) != localPed)
-                    {
-                        continue;
-                    }
-
-                    // Otherwise, disable the collisions
-
-                    // Local Player vs Other Player
-                    localPed.DisableCollisionsThisFrame(otherPed, printNextTick);
-                    // Local Player vs Other Vehicle (if present)
-                    localPed.DisableCollisionsThisFrame(otherVehicle, printNextTick);
-                    // Local Player vs Other Hooked (if present)
-                    localPed.DisableCollisionsThisFrame(otherHooked, printNextTick);
-
-                    // Local Vehicle vs Other Player
-                    localVehicle?.DisableCollisionsThisFrame(otherPed, printNextTick);
-                    // Local Vehicle vs Other Vehicle (if present)
-                    localVehicle?.DisableCollisionsThisFrame(otherVehicle, printNextTick);
-                    // Local Vehicle vs Other Hooked (if present)
-                    localVehicle?.DisableCollisionsThisFrame(otherHooked, printNextTick);
-
-                    // Local Hooked vs Other Player
-                    localHooked?.DisableCollisionsThisFrame(otherPed, printNextTick);
-                    // Local Hooked vs Other Vehicle (if present)
-                    localHooked?.DisableCollisionsThisFrame(otherVehicle, printNextTick);
-                    // Local Hooked vs Other Hooked (if present)
-                    localHooked?.DisableCollisionsThisFrame(otherHooked, printNextTick);
-
-
-                    // Other Player vs Local Player
-                    otherPed.DisableCollisionsThisFrame(localPed, printNextTick);
-                    // Other Player vs Local Vehicle (if present)
-                    otherPed.DisableCollisionsThisFrame(localVehicle, printNextTick);
-                    // Other Player vs Local Hooked (if present)
-                    otherPed.DisableCollisionsThisFrame(localHooked, printNextTick);
-                    // Disable cam collision for other ped
-                    API.DisableCamCollisionForEntity(otherPed.Handle);
-
-                    // Other Vehicle vs Local Player
-                    otherVehicle?.DisableCollisionsThisFrame(localPed, printNextTick);
-                    // Other Vehicle vs Local Vehicle (if present)
-                    otherVehicle?.DisableCollisionsThisFrame(localVehicle, printNextTick);
-                    // Other Vehicle vs Local Hooked (if present)
-                    otherVehicle?.DisableCollisionsThisFrame(localHooked, printNextTick);
-                    // Disable cam collision for other vehicle
-                    if (otherVehicle != null)
-                        API.DisableCamCollisionForEntity(otherVehicle.Handle);
-
-                    // Other Hooked vs Local Player
-                    otherHooked?.DisableCollisionsThisFrame(localPed, printNextTick);
-                    // Other Hooked vs Local Vehicle (if present)
-                    otherHooked?.DisableCollisionsThisFrame(localVehicle, printNextTick);
-                    // Other Hooked vs Local Hooked (if present)
-                    otherHooked?.DisableCollisionsThisFrame(localHooked, printNextTick);
-                    // Disable cam collision for other vehicle trailer if hooked
-                    if (otherHooked != null)
-                        API.DisableCamCollisionForEntity(otherHooked.Handle);
-
                     // On debug mode, draw markers over the other player entities (if found)
                     if (Convars.Debug)
                     {
