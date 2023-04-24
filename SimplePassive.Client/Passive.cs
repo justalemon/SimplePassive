@@ -15,7 +15,6 @@ namespace SimplePassive.Client
     {
         #region Fields
 
-        private bool printNextTick = false;
         private Vehicle lastPlayerVehicle = null;
         private Vehicle lastHookedVehicle = null;
 
