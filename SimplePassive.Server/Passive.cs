@@ -19,20 +19,6 @@ namespace SimplePassive.Server
         [Command("passivetoggle")]
         public void ToggleCommand(int source, List<object> arguments, string raw)
         {
-            // If the source is the Console or RCON, return
-            if (source < 1)
-            {
-                Debug.WriteLine("This command can only be used by players on the server");
-                return;
-            }
-
-            // If this player has an override active, say it and return
-            if (overrides.ContainsKey(source))
-            {
-                Debug.WriteLine("Your Passive Mode Activation has been overriden, you can't change it");
-                return;
-            }
-
             // If the player is allowed to change the activation of itself
             if (API.IsPlayerAceAllowed(source.ToString(), "simplepassive.changeself"))
             {

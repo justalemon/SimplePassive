@@ -199,6 +199,30 @@ function OnOverridesCommand(source, args, raw)
     end
 end
 
+function OnToggleCommand(source, args, raw)
+    local player = GetPlayer(source)
+
+    if player == nil then
+        print("This command can only be used by players on the server")
+        return
+    end
+
+    if Overrides[player] ~= nil then
+        print("Your Passive Mode Activation has been overriden, you can't change it")
+        return
+    end
+
+    if not IsPlayerAceAllowed(source, "simplepassive.changeself") then
+        print("You are not allowed to change your passive mode activation")
+        return
+    end
+
+    local opposite = not GetPlayerActivation(player)
+    Activations[player] = opposite
+    TriggerClientEvent("simplepassive:activationChanged", -1, player, opposite)
+    print("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's activation to " .. opposite)
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
@@ -210,3 +234,4 @@ AddEventHandler("simplepassive:setPassive", SetPassiveSelf)
 RegisterCommand("passiveoverride", OnOverrideCommand, true)
 RegisterCommand("passiveclear", OnClearCommand, true)
 RegisterCommand("passiveoverrides", OnOverridesCommand, true)
+RegisterCommand("passivetoggle", OnToggleCommand, false)
