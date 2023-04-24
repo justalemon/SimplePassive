@@ -14,7 +14,6 @@ namespace SimplePassive.Server
 
         public Passive()
         {
-            Exports.Add("isOverriden", new Func<int, bool>((id) => overrides.ContainsKey(id)));
             Exports.Add("setOverride", new Func<int, bool, bool>(SetPlayerOverride));
             Exports.Add("clearOverride", new Func<int, bool>(ClearOverride));
         }

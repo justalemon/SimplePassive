@@ -45,5 +45,12 @@ function SetPlayerActivation(playerSrc, activation)
     return true
 end
 
+function IsPlayerOverridden(playerSrc)
+    -- do this as it might be passed as an int from C#
+    playerSrc = tostring(playerSrc)
+    return Overrides[playerSrc] ~= nil
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
+exports("isOverriden", IsPlayerOverridden)
