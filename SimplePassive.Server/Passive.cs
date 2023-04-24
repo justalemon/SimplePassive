@@ -14,7 +14,6 @@ namespace SimplePassive.Server
 
         public Passive()
         {
-            Exports.Add("getActivation", new Func<int, bool>(GetPlayerActivation));
             Exports.Add("setActivation", new Func<int, bool, bool>(SetPlayerActivation));
             Exports.Add("isOverriden", new Func<int, bool>((id) => overrides.ContainsKey(id)));
             Exports.Add("setOverride", new Func<int, bool, bool>(SetPlayerOverride));

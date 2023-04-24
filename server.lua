@@ -20,3 +20,5 @@ function GetPlayerActivation(playerId)
 
     return GetDefaultActivation()
 end
+
+exports("getActivation", GetPlayerActivation)
