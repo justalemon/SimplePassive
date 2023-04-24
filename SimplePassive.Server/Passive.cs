@@ -13,41 +13,6 @@ namespace SimplePassive.Server
         #region Commands
 
         /// <summary>
-        /// Clears the passive mode override for a player.
-        /// </summary>
-        [Command("passiveclear", Restricted = true)]
-        public void Clear(int source, List<object> arguments, string raw)
-        {
-            // If there are no arguments, return
-            if (arguments.Count == 0)
-            {
-                Debug.WriteLine("You need to specify the ID of a Player!");
-                return;
-            }
-
-            // Try to convert the first value to an int
-            // If we failed, return
-            if (!int.TryParse(arguments[0].ToString(), out int id))
-            {
-                Debug.WriteLine("The Player ID is not a number!");
-                return;
-            }
-
-            // If the player is not valid, say it and return
-            if (Players[id] == null)
-            {
-                Debug.WriteLine("The Player specified is not valid.");
-                return;
-            }
-
-            // Now, time to remove the Override
-            if (!ClearOverride(id))
-            {
-                Debug.WriteLine($"The player {id} does not has a Passive Mode Override");
-            }
-        }
-
-        /// <summary>
         /// Shows the current overrides in the server.
         /// </summary>
         [Command("passiveoverrides", Restricted = true)]

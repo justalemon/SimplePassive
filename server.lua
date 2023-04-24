@@ -168,6 +168,26 @@ function OnOverrideCommand(source, args, raw)
     SetPlayerOverride(player, activation)
 end
 
+function OnClearCommand(source, args, raw)
+    if args[1] == nil then
+        Debug("You need to specify the ID of a Player!")
+        return
+    end
+
+    local player = GetPlayer(args[1])
+
+    if player == nil then
+        Debug("The Player specified is not valid.");
+        return
+    end
+
+    if ClearPlayerOverride(player) then
+        print("The Override of " .. GetPlayerName(player) .. " (" .. player .. ") was cleared!")
+    else
+        print("Player " .. GetPlayerName(player) .. " (" .. player .. ") does not has an override set")
+    end
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
@@ -177,3 +197,4 @@ AddEventHandler("playerDropped", OnPlayerDropped)
 AddEventHandler("simplepassive:initialized", OnPlayerInitialized)
 AddEventHandler("simplepassive:setPassive", SetPassiveSelf)
 RegisterCommand("passiveoverride", OnOverrideCommand, true)
+RegisterCommand("passiveclear", OnClearCommand, true)
