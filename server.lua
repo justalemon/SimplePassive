@@ -124,6 +124,27 @@ function OnPlayerInitialized()
     Debug("Player " .. GetPlayerName(player) .. " (" .. player .. ") received all passive activations")
 end
 
+function SetPassiveSelf(activation)
+    local player = GetPlayer(source)
+
+    if player == nil then
+        return false
+    end
+
+    if not IsPlayerAceAllowed(player, "simplepassive.changeself") then
+        return
+    end
+
+    if Overrides[player] ~= nil then
+        return
+    end
+
+    Activations[player] = activation
+    TriggerClientEvent("simplepassive:activationChanged", -1, player, activation)
+
+    Debug("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's own activation to " .. activation)
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
@@ -131,3 +152,4 @@ exports("setOverride", SetPlayerOverride)
 exports("clearOverride", ClearPlayerOverride)
 AddEventHandler("playerDropped", OnPlayerDropped)
 AddEventHandler("simplepassive:initialized", OnPlayerInitialized)
+AddEventHandler("simplepassive:setPassive", SetPassiveSelf)
