@@ -1,3 +1,26 @@
+function GetHookedVehicle(vehicle)
+    if not DoesEntityExist(vehicle) and not IsEntityAVehicle(vehicle) then
+        return
+    end
+
+    local hasTrailer, trailer = GetVehicleTrailerVehicle(vehicle)
+    if hasTrailer then
+        return trailer
+    end
+
+    local hasHooked, hooked = GetVehicleAttachedToCargobob(vehicle)
+    if hasHooked then
+        return hooked
+    end
+
+    local hasTowed, towed = GetEntityAttachedToTowTruck(vehicle)
+    if hasTowed then
+        return towed
+    end
+
+    return 0
+end
+
 function DrawDebugMarker(entity, r, g, b)
     if not DoesEntityExist(entity) or not IsEntityOnScreen(entity) then
         return
