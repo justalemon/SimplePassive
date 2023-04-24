@@ -1,3 +1,6 @@
+-- The activations sent by the server
+Activations = {}
+
 function GetHookedVehicle(vehicle)
     if not DoesEntityExist(vehicle) and not IsEntityAVehicle(vehicle) then
         return
