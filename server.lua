@@ -15,13 +15,33 @@ function GetDefaultActivation()
     return GetConvarInt("simplepassive_default", 0) ~= 0
 end
 
-function GetPlayerActivation(playerId)
-    local override = Overrides[playerId]
+function GetPlayer(playerSrc)
+    -- do this as it might be passed as an int from C#
+    local handle = tonumber(playerSrc)
+    -- Best option I could find
+    -- Returns nil when the playerSrc is not valid, and a number when valid
+    local guid = GetPlayerGuid(handle)
+
+    if guid then
+        return handle
+    else
+        return nil
+    end
+end
+
+function GetPlayerActivation(playerSrc)
+    local player = GetPlayer(playerSrc)
+
+    if player == nil then
+        return false
+    end
+
+    local override = Overrides[player]
     if override ~= nil then
         return override
     end
 
-    local activation = Activations[playerId]
+    local activation = Activations[player]
     if activation ~= nil then
         return activation
     end
@@ -30,40 +50,33 @@ function GetPlayerActivation(playerId)
 end
 
 function SetPlayerActivation(playerSrc, activation)
-    -- do this as it might be passed as an int from C#
-    playerSrc = tostring(playerSrc)
+    local player = GetPlayer(playerSrc)
 
-    -- Best option I could find
-    -- Returns nil when the playerSrc is not valid, and a number when valid
-    if GetPlayerGuid(playerSrc) == nil then
+    if player == nil then
         return false
     end
 
-    Activations[playerSrc] = activation
-    TriggerClientEvent("simplepassive:activationChanged", -1, tonumber(playerSrc), activation)
-    Debug("Passive Activation of " .. GetPlayerName(playerSrc) .. " (" .. playerSrc .. ") is now " .. activation)
+    Activations[player] = activation
+    TriggerClientEvent("simplepassive:activationChanged", -1, player, activation)
+    Debug("Passive Activation of " .. GetPlayerName(player) .. " (" .. player .. ") is now " .. activation)
     return true
 end
 
 function IsPlayerOverridden(playerSrc)
-    -- do this as it might be passed as an int from C#
-    playerSrc = tostring(playerSrc)
-    return Overrides[playerSrc] ~= nil
+    local player = GetPlayer(playerSrc)
+    return player ~= nil and Overrides[player] ~= nil
 end
 
 function SetPlayerOverride(playerSrc, override)
-    -- do this as it might be passed as an int from C#
-    playerSrc = tostring(playerSrc)
+    local player = GetPlayer(playerSrc)
 
-    -- Best option I could find
-    -- Returns nil when the playerSrc is not valid, and a number when valid
-    if GetPlayerGuid(playerSrc) == nil then
+    if player == nil then
         return false
     end
 
-    Overrides[playerSrc] = override
-    TriggerClientEvent("simplepassive:activationChanged", -1, tonumber(playerSrc), override)
-    Debug("Passive Activation of " .. GetPlayerName(playerSrc) .. " (" .. playerSrc .. ") is overriden to " .. override)
+    Overrides[player] = override
+    TriggerClientEvent("simplepassive:activationChanged", -1, tonumber(player), override)
+    Debug("Passive Activation of " .. GetPlayerName(player) .. " (" .. player .. ") is overriden to " .. override)
     return true
 end
 
