@@ -13,47 +13,6 @@ namespace SimplePassive.Server
         #region Commands
 
         /// <summary>
-        /// Overrides the passive mode activation of a player.
-        /// </summary>
-        [Command("passiveoverride", Restricted = true)]
-        public void OverrideCommand(int source, List<object> arguments, string raw)
-        {
-            // If no player or activation was specified, say it and return
-            if (arguments.Count < 2)
-            {
-                Debug.WriteLine("You need to specify the Player ID and desired Activation!");
-                return;
-            }
-
-            // Try to convert the first value to an int
-            // If we failed, return
-            if (!int.TryParse(arguments[0].ToString(), out int playerID))
-            {
-                Debug.WriteLine("The Player ID is not a number!");
-                return;
-            }
-
-            // If the player is not valid, say it and return
-            if (Players[playerID] == null)
-            {
-                Debug.WriteLine("The Player specified is not present.");
-                return;
-            }
-
-            // Try to convert the second value to an int
-            // If we failed, return
-            if (!int.TryParse(arguments[1].ToString(), out int value))
-            {
-                Debug.WriteLine("The activation needs to be 0 or 1!");
-                return;
-            }
-
-            // If we got here, convert the activation to a boolean and set it
-            bool activation = Convert.ToBoolean(value);
-            SetPlayerOverride(playerID, activation);
-        }
-
-        /// <summary>
         /// Clears the passive mode override for a player.
         /// </summary>
         [Command("passiveclear", Restricted = true)]

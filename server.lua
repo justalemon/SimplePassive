@@ -145,6 +145,29 @@ function SetPassiveSelf(activation)
     Debug("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's own activation to " .. activation)
 end
 
+function OnOverrideCommand(source, args, raw)
+    if #args < 2 then
+        print("You need to specify the Player ID and desired Activation!")
+        return
+    end
+
+    local player = GetPlayer(args[1])
+
+    if player == nil then
+        print("The Player specified it's not valid!")
+        return
+    end
+
+    local activation = tonumber(args[2])
+
+    if activation == nil then
+        print("The activation needs to be 0 or 1!")
+        return
+    end
+
+    SetPlayerOverride(player, activation)
+end
+
 exports("getActivation", GetPlayerActivation)
 exports("setActivation", SetPlayerActivation)
 exports("isOverriden", IsPlayerOverridden)
@@ -153,3 +176,4 @@ exports("clearOverride", ClearPlayerOverride)
 AddEventHandler("playerDropped", OnPlayerDropped)
 AddEventHandler("simplepassive:initialized", OnPlayerInitialized)
 AddEventHandler("simplepassive:setPassive", SetPassiveSelf)
+RegisterCommand("passiveoverride", OnOverrideCommand, true)
