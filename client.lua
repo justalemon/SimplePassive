@@ -229,7 +229,6 @@ function HandleCollisions()
             AddTextComponentSubstringPlayerName(debugText)
             SetTextScale(1, 0.5)
             SetTextColour(255, 255, 255, 255)
-            SetTextJustification(0)
             EndTextCommandDisplayText(0, 0)
         end
 
