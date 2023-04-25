@@ -27,32 +27,5 @@ namespace SimplePassive.Client
         }
 
         #endregion
-
-        #region Network Events
-
-        /// <summary>
-        /// Saves the activation of passive mode for another player.
-        /// </summary>
-        /// <param name="handle">The Server Handle/ID of the player.</param>
-        /// <param name="activation">The activation of that player.</param>
-        [EventHandler("simplepassive:activationChanged")]
-        public void ActivationChanged(int handle, bool activation)
-        {
-            // Just save the activation of the player
-            activations[handle] = activation;
-            if (Convars.Debug)
-            {
-                Debug.WriteLine($"Received Passive Activation of {handle} ({activation})");
-            }
-
-            // If the passive activation is for the current player
-            if (handle == Game.Player.ServerId)
-            {
-                // Set the correct activation for drive by-s
-                API.SetPlayerCanDoDriveBy(Game.Player.Handle, (!activation && Convars.DisableCombat) || !Convars.DisableCombat);
-            }
-        }
-
-        #endregion
     }
 }

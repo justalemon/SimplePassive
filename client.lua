@@ -239,6 +239,27 @@ function HandleCollisions()
     end
 end
 
+function OnActivationChanged(playerId, activation)
+    activation = not (not activation)
+
+    local player = tonumber(playerId)
+
+    if player == nil then
+        return
+    end
+
+    Activations[player] = activation
+
+    Debug("Received Passive Activation of " .. player .. " (" .. activation .. ")")
+
+    local localPlayer = PlayerId()
+
+    if player == GetPlayerServerId(localPlayer) then
+        local shouldDisableCombat = not (not GetConvarInt("simplepassive_disablecombat", 0))
+        SetPlayerCanDoDriveBy(localPlayer, (not activation and shouldDisableCombat) or not shouldDisableCombat)
+    end
+end
+
 function OnDoCleanup(player)
     Activations[player] = nil
 end
@@ -253,5 +274,6 @@ exports("getActivation", GetLocalPlayerActivation)
 exports("setActivation", SetLocalPlayerActivation)
 Citizen.CreateThread(Initialize)
 Citizen.CreateThread(HandleCollisions)
+AddEventHandler("simplepassive:activationChanged", OnActivationChanged)
 AddEventHandler("simplepassive:doCleanup", OnDoCleanup)
 RegisterCommand("passiveprinttick", OnPrintTickCommand, true)
