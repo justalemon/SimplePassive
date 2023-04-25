@@ -222,7 +222,13 @@ function HandleCollisions()
             for _, playerId in ipairs(GetActivePlayers()) do
                 local player = GetPlayerServerId(playerId)
                 local activation = GetPlayerActivation(player)
-                debugText = debugText .. " " .. player .. " " .. activation
+
+                -- fallback for race conditions
+                if activation == nil then
+                    activation = GetDefaultActivation()
+                end
+
+                debugText = debugText .. " " .. player .. " " .. tostring(activation)
             end
 
             BeginTextCommandDisplayText("CELL_EMAIL_BCON")
