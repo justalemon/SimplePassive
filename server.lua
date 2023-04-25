@@ -103,7 +103,7 @@ function OnPlayerInitialized()
 
     Activations[player] = GetDefaultActivation()
 
-    for _, otherPlayerSrc in ipairs(GetActivePlayers()) do
+    for _, otherPlayerSrc in ipairs(GetPlayers()) do
         local otherPlayer = GetPlayer(otherPlayerSrc)
 
         if otherPlayer ~= nil then
