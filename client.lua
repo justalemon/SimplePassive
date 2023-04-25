@@ -239,6 +239,10 @@ function HandleCollisions()
     end
 end
 
+function OnDoCleanup(player)
+    Activations[player] = nil
+end
+
 function OnPrintTickCommand(source, args, raw)
     if not (not GetConvarInt("simplepassive_debug", 0)) then
         PrintCollisionChanges = true
@@ -249,4 +253,5 @@ exports("getActivation", GetLocalPlayerActivation)
 exports("setActivation", SetLocalPlayerActivation)
 Citizen.CreateThread(Initialize)
 Citizen.CreateThread(HandleCollisions)
+AddEventHandler("simplepassive:doCleanup", OnDoCleanup)
 RegisterCommand("passiveprinttick", OnPrintTickCommand, true)
