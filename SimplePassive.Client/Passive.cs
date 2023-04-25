@@ -24,9 +24,6 @@ namespace SimplePassive.Client
         {
             // Add the local activation onto the debug text
             debugText += $"\nLocal Status: {localActivation}";
-
-            // Finally, disable the printing during the next tick (if enabled)
-            printNextTick = false;
         }
 
         #endregion
