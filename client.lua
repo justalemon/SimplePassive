@@ -255,7 +255,7 @@ function OnActivationChanged(playerId, activation)
 
     Activations[player] = activation
 
-    Debug("Received Passive Activation of " .. player .. " (" .. activation .. ")")
+    Debug("Received Passive Activation of " .. player .. " (" .. tostring(activation) .. ")")
 
     local localPlayer = PlayerId()
 
