@@ -32,36 +32,6 @@ namespace SimplePassive.Client
             // Create a text for the debug mode
             string debugText = "Passive Players: ";
 
-            // Make sure that the player is invincible if needed
-            if (Convars.MakeInvincible)
-            {
-                if (localVehicle != null)
-                {
-                    localVehicle.IsInvincible = localActivation;
-                }
-                if (localHooked != null)
-                {
-                    localHooked.IsInvincible = localActivation;
-                }
-
-                if (localVehicle != lastPlayerVehicle)
-                {
-                    if (lastPlayerVehicle != null && lastPlayerVehicle.Exists() && (lastPlayerVehicle.Driver == null || lastPlayerVehicle.Driver != localPed))
-                    {
-                        lastPlayerVehicle.IsInvincible = false;
-                    }
-                    lastPlayerVehicle = localVehicle;
-                }
-                if (localHooked != lastHookedVehicle)
-                {
-                    if (lastHookedVehicle != null && lastHookedVehicle.Exists() && (lastHookedVehicle.Driver == null || lastHookedVehicle.Driver != localPed))
-                    {
-                        lastHookedVehicle.IsInvincible = false;
-                    }
-                    lastHookedVehicle = localHooked;
-                }
-            }
-
             // Then, iterate over the list of players
             foreach (Player player in Players)
             {

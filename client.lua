@@ -104,7 +104,33 @@ function HandleCollisions()
         local setInvincible = not (not GetConvarInt("simplepassive_makeinvincible", 0))
         local disableCombat = not (not GetConvarInt("simplepassive_disablecombat", 0))
 
-        SetEntityInvincible(localPed, setInvincible)
+        SetEntityInvincible(localPed, setInvincible and localActivation)
+        if localVehicle then
+            SetEntityInvincible(localVehicle, setInvincible and localActivation)
+        end
+        if localHooked then
+            SetEntityInvincible(localHooked, setInvincible and localActivation)
+        end
+        if setInvincible then
+            if LastVehicle ~= localVehicle then
+                if LastVehicle then
+                    local inDriverSeat = GetPedInVehicleSeat(LastVehicle, -1)
+                    if not inDriverSeat or inDriverSeat ~= localPed then
+                        SetEntityInvincible(LastVehicle, false)
+                    end
+                end
+                LastVehicle = localVehicle
+            end
+            if LastHooked ~= localHooked then
+                if LastHooked then
+                    local inDriverSeat = GetPedInVehicleSeat(LastHooked, -1)
+                    if not inDriverSeat then
+                        SetEntityInvincible(LastHooked, false)
+                    end
+                end
+                LastHooked = localHooked
+            end
+        end
 
         DisablePlayerFiring(localPlayer.Handle, localActivation and disableCombat)
 
