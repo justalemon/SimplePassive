@@ -22,23 +22,8 @@ namespace SimplePassive.Client
         [Tick]
         public async Task HandleCollisions()
         {
-            // Create a text for the debug mode
-            string debugText = "Passive Players: ";
-
-            // Then, iterate over the list of players
-            foreach (Player player in Players)
-            {
-                // Add the activation onto the debug text
-                debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
-            }
-
             // Add the local activation onto the debug text
             debugText += $"\nLocal Status: {localActivation}";
-            // And draw it if the debug mode is enabled
-            if (Convars.Debug)
-            {
-                new Text(debugText, new PointF(0, 0), 0.5f).Draw();
-            }
 
             // Finally, disable the printing during the next tick (if enabled)
             printNextTick = false;

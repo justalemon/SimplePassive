@@ -216,6 +216,23 @@ function HandleCollisions()
             ::continue::
         end
 
+        if debug then
+            local debugText = "Passive Players: "
+
+            for _, playerId in ipairs(GetActivePlayers()) do
+                local player = GetPlayerServerId(playerId)
+                local activation = GetPlayerActivation(player)
+                debugText = debugText .. " " .. player .. " " .. activation
+            end
+
+            BeginTextCommandDisplayText("CELL_EMAIL_BCON")
+            AddTextComponentSubstringPlayerName(debugText)
+            SetTextScale(1, 0.5)
+            SetTextColour(255, 255, 255, 255)
+            SetTextJustification(0)
+            EndTextCommandDisplayText(0, 0)
+        end
+
         Citizen.Wait(0)
     end
 end
