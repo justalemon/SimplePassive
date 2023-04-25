@@ -71,22 +71,5 @@ namespace SimplePassive.Client
         }
 
         #endregion
-
-        #region Debug Commands
-
-        /// <summary>
-        /// Prints the collisions changed during the next tick.
-        /// </summary>
-        [Command("passiveprinttick")]
-        public void ShowNextTickCommand()
-        {
-            // If debug mode is enabled, set printNextTick to true
-            if (Convars.Debug)
-            {
-                printNextTick = true;
-            }
-        }
-
-        #endregion
     }
 }

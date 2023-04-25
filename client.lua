@@ -233,7 +233,15 @@ function HandleCollisions()
             EndTextCommandDisplayText(0, 0)
         end
 
+        PrintCollisionChanges = false
+
         Citizen.Wait(0)
+    end
+end
+
+function OnPrintTickCommand(source, args, raw)
+    if not (not GetConvarInt("simplepassive_debug", 0)) then
+        PrintCollisionChanges = true
     end
 end
 
@@ -241,3 +249,4 @@ exports("getActivation", GetLocalPlayerActivation)
 exports("setActivation", SetLocalPlayerActivation)
 Citizen.CreateThread(Initialize)
 Citizen.CreateThread(HandleCollisions)
+RegisterCommand("passiveprinttick", OnPrintTickCommand, true)
