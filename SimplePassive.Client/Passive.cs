@@ -29,13 +29,9 @@ namespace SimplePassive.Client
         [Tick]
         public async Task HandleCollisions()
         {
-            // Create some references to the local player ped and vehicle
-            Player localPlayer = Game.Player;
-            Ped localPed = localPlayer.Character;
-
             // Create a text for the debug mode
             string debugText = "Passive Players: ";
-            
+
             // Make sure that the player is invincible if needed
             if (Convars.MakeInvincible)
             {
@@ -66,31 +62,11 @@ namespace SimplePassive.Client
                 }
             }
 
-            // On debug mode, draw markers on top of the player entities
-            if (Convars.Debug)
-            {
-                localPed?.DrawDebugMarker(255, 255, 255);
-                localVehicle?.DrawDebugMarker(255, 255, 255);
-                localHooked?.DrawDebugMarker(255, 255, 255);
-            }
-
             // Then, iterate over the list of players
             foreach (Player player in Players)
             {
                 // Add the activation onto the debug text
                 debugText += $" {player.ServerId} ({(playerActivation ? 1 : 0)})";
-
-                // If passive mode is activated by the other or local player
-                if (disableCollisions)
-                {
-                    // On debug mode, draw markers over the other player entities (if found)
-                    if (Convars.Debug)
-                    {
-                        otherPed?.DrawDebugMarker(100, 75, 80);
-                        otherVehicle?.DrawDebugMarker(100, 75, 80);
-                        otherHooked?.DrawDebugMarker(100, 75, 80);
-                    }
-                }
             }
 
             // Add the local activation onto the debug text

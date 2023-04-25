@@ -99,6 +99,8 @@ function HandleCollisions()
         local localHooked = GetHookedVehicle(localVehicle)
         local localActivation = GetLocalPlayerActivation()
 
+        local debug = not (not GetConvarInt("simplepassive_debug", 0))
+
         local setInvincible = not (not GetConvarInt("simplepassive_makeinvincible", 0))
         local disableCombat = not (not GetConvarInt("simplepassive_disablecombat", 0))
 
@@ -122,6 +124,12 @@ function HandleCollisions()
             DisableControlAction(0, 92, true) -- INPUT_VEH_PASSENGER_ATTACK
             DisableControlAction(0, 114, true) -- INPUT_VEH_FLY_ATTACK
             DisableControlAction(0, 331, true) -- INPUT_VEH_FLY_ATTACK2
+        end
+
+        if debug then
+            DrawDebugMarker(localPed, 100, 75, 80)
+            DrawDebugMarker(localVehicle, 100, 75, 80)
+            DrawDebugMarker(localHooked, 100, 75, 80)
         end
 
         for _, otherPlayer in ipairs(GetActivePlayers()) do
@@ -162,6 +170,12 @@ function HandleCollisions()
                 DisableCollisionsThisFrame(localHooked, otherVehicle)
                 DisableCollisionsThisFrame(localHooked, otherHooked)
 
+                if debug then
+                    DrawDebugMarker(otherPed, 100, 75, 80)
+                    DrawDebugMarker(otherVehicle, 100, 75, 80)
+                    DrawDebugMarker(otherHooked, 100, 75, 80)
+                end
+
                 DisableCamCollisionForEntity(otherPed)
 
                 if otherVehicle then
@@ -171,8 +185,6 @@ function HandleCollisions()
                 if otherHooked then
                     DisableCamCollisionForEntity(otherHooked)
                 end
-
-
             end
 
             ::continue::
