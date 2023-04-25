@@ -39,7 +39,7 @@ end
 
 function SetPlayerActivation(playerSrc, activation)
     local player = GetPlayer(playerSrc)
-    local activation = not (not activation)
+    -- TODO: Add proper boolean checks
 
     if player == nil then
         return false
@@ -58,7 +58,7 @@ end
 
 function SetPlayerOverride(playerSrc, override)
     local player = GetPlayer(playerSrc)
-    local override = not (not override)
+    -- TODO: Add proper boolean checks
 
     if player == nil then
         return false
@@ -116,7 +116,7 @@ end
 
 function SetPassiveSelf(activation)
     local player = GetPlayer(source)
-    local activation = not (not activation)
+    -- TODO: Add proper boolean checks
 
     if player == nil then
         return false

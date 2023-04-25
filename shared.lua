@@ -1,5 +1,5 @@
 function Debug(message)
-    if not (not GetConvarInt("simplepassive_debug", 0)) then
+    if GetConvarInt("simplepassive_debug", 0) == 0 then
         return
     end
 
@@ -7,5 +7,5 @@ function Debug(message)
 end
 
 function GetDefaultActivation()
-    return not (not GetConvarInt("simplepassive_default", 0))
+    return GetConvarInt("simplepassive_default", 0) ~= 0
 end

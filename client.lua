@@ -82,7 +82,7 @@ function GetPlayerActivation(player)
 end
 
 function SetLocalPlayerActivation(activation)
-    activation = not (not activation)
+    -- TODO: Add proper boolean checks
     Debug("Requesting server to change the activation to " .. activation)
     TriggerServerEvent("simplepassive:setPassive", activation)
 end
@@ -99,10 +99,10 @@ function HandleCollisions()
         local localHooked = GetHookedVehicle(localVehicle)
         local localActivation = GetLocalPlayerActivation()
 
-        local debug = not (not GetConvarInt("simplepassive_debug", 0))
+        local debug = GetConvarInt("simplepassive_debug", 0) ~= 0
 
-        local setInvincible = not (not GetConvarInt("simplepassive_makeinvincible", 0))
-        local disableCombat = not (not GetConvarInt("simplepassive_disablecombat", 0))
+        local setInvincible = GetConvarInt("simplepassive_makeinvincible", 0) ~= 0
+        local disableCombat = GetConvarInt("simplepassive_disablecombat", 0) ~= 0
 
         SetEntityInvincible(localPed, setInvincible and localActivation)
         if localVehicle then
@@ -245,7 +245,7 @@ function HandleCollisions()
 end
 
 function OnActivationChanged(playerId, activation)
-    activation = not (not activation)
+    -- TODO: Add proper boolean checks
 
     local player = tonumber(playerId)
 
@@ -260,7 +260,7 @@ function OnActivationChanged(playerId, activation)
     local localPlayer = PlayerId()
 
     if player == GetPlayerServerId(localPlayer) then
-        local shouldDisableCombat = not (not GetConvarInt("simplepassive_disablecombat", 0))
+        local shouldDisableCombat = GetConvarInt("simplepassive_disablecombat", 0) ~= 0
         SetPlayerCanDoDriveBy(localPlayer, (not activation and shouldDisableCombat) or not shouldDisableCombat)
     end
 end
@@ -270,7 +270,7 @@ function OnDoCleanup(player)
 end
 
 function OnPrintTickCommand(source, args, raw)
-    if not (not GetConvarInt("simplepassive_debug", 0)) then
+    if GetConvarInt("simplepassive_debug", 0) ~= 0 then
         PrintCollisionChanges = true
     end
 end
