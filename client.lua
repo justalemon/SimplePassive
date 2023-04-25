@@ -132,7 +132,7 @@ function HandleCollisions()
             end
         end
 
-        DisablePlayerFiring(localPlayer.Handle, localActivation and disableCombat)
+        DisablePlayerFiring(localPlayer, localActivation and disableCombat)
 
         if localActivation and disableCombat then
             DisableControlAction(0, 45, true) -- INPUT_RELOAD
