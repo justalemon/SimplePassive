@@ -13,13 +13,6 @@ namespace SimplePassive.Client
     /// </summary>
     public class Passive : BaseScript
     {
-        #region Fields
-
-        private Vehicle lastPlayerVehicle = null;
-        private Vehicle lastHookedVehicle = null;
-
-        #endregion
-
         #region Ticks
 
         /// <summary>
