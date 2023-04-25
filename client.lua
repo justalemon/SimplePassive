@@ -98,7 +98,6 @@ function HandleCollisions()
         local localVehicle = GetVehiclePedIsIn(ped, true)
         local localHooked = GetHookedVehicle(localVehicle)
         local localActivation = GetLocalPlayerActivation()
-        local isDriver = GetPedInVehicleSeat(localVehicle, -1) == localPed
 
         local setInvincible = not (not GetConvarInt("simplepassive_makeinvincible", 0))
         local disableCombat = not (not GetConvarInt("simplepassive_disablecombat", 0))
@@ -172,6 +171,8 @@ function HandleCollisions()
                 if otherHooked then
                     DisableCamCollisionForEntity(otherHooked)
                 end
+
+
             end
 
             ::continue::
