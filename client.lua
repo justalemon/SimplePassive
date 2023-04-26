@@ -193,9 +193,9 @@ function HandleCollisions()
                 DisableCollisionsThisFrame(localHooked, otherHooked)
 
                 if debug then
-                    DrawDebugMarker(otherPed, 100, 75, 80)
-                    DrawDebugMarker(otherVehicle, 100, 75, 80)
-                    DrawDebugMarker(otherHooked, 100, 75, 80)
+                    DrawDebugMarker(otherPed)
+                    DrawDebugMarker(otherVehicle)
+                    DrawDebugMarker(otherHooked)
                 end
 
                 DisableCamCollisionForEntity(otherPed)
