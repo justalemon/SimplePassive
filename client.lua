@@ -30,7 +30,7 @@ function GetHookedVehicle(vehicle)
     return 0
 end
 
-function DrawDebugMarker(entity, r, g, b)
+function DrawDebugMarker(entity)
     if not DoesEntityExist(entity) or not IsEntityOnScreen(entity) then
         return
     end
@@ -39,7 +39,7 @@ function DrawDebugMarker(entity, r, g, b)
     local _, x, y = GetScreenCoordFromWorldCoord(pos.x, pos.y, pos.z)
     BeginTextCommandDisplayText("CELL_EMAIL_BCON")
     AddTextComponentSubstringPlayerName(tostring(entity))
-    SetTextColour(r, g, b, 255)
+    SetTextColour(255, 66, 198, 255)
     SetTextJustification(0)
     EndTextCommandDisplayText(x, y)
 end
@@ -153,9 +153,9 @@ function HandleCollisions()
         end
 
         if debug then
-            DrawDebugMarker(localPed, 100, 75, 80)
-            DrawDebugMarker(localVehicle, 100, 75, 80)
-            DrawDebugMarker(localHooked, 100, 75, 80)
+            DrawDebugMarker(localPed)
+            DrawDebugMarker(localVehicle)
+            DrawDebugMarker(localHooked)
         end
 
         for _, otherPlayer in ipairs(GetActivePlayers()) do
