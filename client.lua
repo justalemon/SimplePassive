@@ -265,7 +265,7 @@ function OnDoCleanup(player)
     Activations[player] = nil
 end
 
-function OnPrintTickCommand(source, args, raw)
+function OnPrintTickCommand(_, _, _)
     if GetConvarInt("simplepassive_debug", 0) ~= 0 then
         PrintCollisionChanges = true
     end
