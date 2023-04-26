@@ -68,10 +68,6 @@ function GetLocalPlayerActivation()
 end
 
 function GetPlayerActivation(player)
-    if not NetworkIsPlayerActive(player) then
-        return nil
-    end
-
     local activation = Activations[player]
 
     if activation ~= nil then
