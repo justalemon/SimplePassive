@@ -198,13 +198,16 @@ function HandleCollisions()
                     DrawDebugMarker(otherHooked)
                 end
 
+                -- luacheck: ignore 113
                 DisableCamCollisionForEntity(otherPed)
 
                 if otherVehicle then
+                    -- luacheck: ignore 113
                     DisableCamCollisionForEntity(otherVehicle)
                 end
 
                 if otherHooked then
+                    -- luacheck: ignore 113
                     DisableCamCollisionForEntity(otherHooked)
                 end
             end
