@@ -23,7 +23,7 @@ jobs:
       - run: python -m collei natives fivem.lua cfxlua --lists gtav fivem --no-comments
       - uses: lunarmodules/luacheck@v1.1.0
         with:
-          args: "--no-global --no-unused-args *.lua"
+          args: "--allow-defined --no-unused-args *.lua"
       - run: rm -r dist/simplepassive || true && mkdir -p dist/simplepassive && cp *.lua dist/simplepassive
       - uses: actions/upload-artifact@v3
         with:
