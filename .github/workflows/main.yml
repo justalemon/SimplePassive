@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4.6.0
+        with:
+          python-version: "3.10"
+      - run: pip install https://github.com/justalemon/Collei/archive/master.zip
       - uses: lunarmodules/luacheck@v1.1.0
       - run: rm -r dist/simplepassive || true && mkdir -p dist/simplepassive && cp *.lua dist/simplepassive
       - uses: actions/upload-artifact@v3
