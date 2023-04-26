@@ -211,7 +211,7 @@ function OnToggleCommand(source, args, raw)
     local opposite = not GetPlayerActivation(player)
     Activations[player] = opposite
     TriggerClientEvent("simplepassive:activationChanged", -1, player, opposite)
-    print("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's activation to " .. opposite)
+    print("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's activation to " .. tostring(opposite))
 end
 
 exports("getActivation", GetPlayerActivation)
