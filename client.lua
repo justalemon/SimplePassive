@@ -91,7 +91,7 @@ function HandleCollisions()
     while true do
         local localPlayer = PlayerId()
         local localPed = PlayerPedId()
-        local localVehicle = GetVehiclePedIsIn(ped, true)
+        local localVehicle = GetVehiclePedIsIn(localPed, false)
         local localHooked = GetHookedVehicle(localVehicle)
         local localActivation = GetLocalPlayerActivation()
 
