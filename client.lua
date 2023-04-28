@@ -3,9 +3,9 @@ Activations = {}
 -- Whether the next set of collision changes should be printed on the console
 PrintCollisionChanges = false
 -- The last known player vehicle
-LastVehicle = nil
+LastVehicle = 0
 -- The last known trailer/hooked vehicle
-LastHooked = nil
+LastHooked = 0
 
 function GetHookedVehicle(vehicle)
     if vehicle == 0 or not IsEntityAVehicle(vehicle) then
@@ -115,23 +115,15 @@ function HandleCollisions()
         if localHooked then
             SetEntityInvincible(localHooked, setInvincible and localActivation)
         end
+
+        -- this ones will be overridden by the checks above from the other player's client
         if setInvincible then
             if LastVehicle ~= localVehicle then
-                if LastVehicle then
-                    local inDriverSeat = GetPedInVehicleSeat(LastVehicle, -1)
-                    if not inDriverSeat or inDriverSeat ~= localPed then
-                        SetEntityInvincible(LastVehicle, false)
-                    end
-                end
+                SetEntityInvincible(LastVehicle, false)
                 LastVehicle = localVehicle
             end
             if LastHooked ~= localHooked then
-                if LastHooked then
-                    local inDriverSeat = GetPedInVehicleSeat(LastHooked, -1)
-                    if not inDriverSeat then
-                        SetEntityInvincible(LastHooked, false)
-                    end
-                end
+                SetEntityInvincible(LastHooked, false)
                 LastHooked = localHooked
             end
         end
