@@ -30,6 +30,7 @@ jobs:
           path: dist
   deploy:
     runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'release' }}
     needs:
       - lint-and-compile
     steps:
@@ -41,3 +42,12 @@ jobs:
       - run: 7z a ${{ github.event.repository.name }}.zip ${{ github.workspace }}/dist/*
       - run: ls -R
         working-directory: dist
+      - uses: ncipollo/release-action@v1.10.0
+        with:
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          artifacts: ${{ github.event.repository.name }}.zip
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
