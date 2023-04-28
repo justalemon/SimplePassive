@@ -15,7 +15,7 @@ It has multiple configurable features that you can configure and use, like:
 
 ## Installation
 
-In your **resources** directory, create a folder called **simplepassive** and extracts the contents from the compressed file in there.
+Copy the folder from the compressed file to your **resources** directory.
 
 ## Usage
 
