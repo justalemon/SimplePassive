@@ -165,21 +165,21 @@ function HandleCollisions()
             local otherActivation = GetPlayerActivation(GetPlayerServerId(otherPlayer))
             local shouldDisableCollisions = otherActivation or localActivation
 
+            local alpha = 255
+
+            if shouldDisableCollisions and not GetIsTaskActive(otherPed, 2) and otherVehicle ~= localVehicle then
+                alpha = GetConvarInt("simplepassive_alpha", 200)
+            end
+
+            SetAlpha(otherPed, alpha)
+            SetAlpha(otherVehicle, alpha)
+            SetAlpha(otherHooked, alpha)
+
             if shouldDisableCollisions then
                 if otherVehicle and IsPedInVehicle(otherVehicle, localPed, false) and
                     GetPedInVehicleSeat(otherVehicle, -1) ~= localPed then
                     goto continue
                 end
-
-                local alpha = 255
-
-                if shouldDisableCollisions and not GetIsTaskActive(otherPed, 2) and otherVehicle ~= localVehicle then
-                    alpha = GetConvarInt("simplepassive_alpha", 200)
-                end
-
-                SetAlpha(otherPed, alpha)
-                SetAlpha(otherVehicle, alpha)
-                SetAlpha(otherHooked, alpha)
 
                 DisableCollisionsThisFrame(localPed, otherPed)
                 DisableCollisionsThisFrame(localPed, otherVehicle)
