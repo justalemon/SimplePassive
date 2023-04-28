@@ -1,4 +1,4 @@
-# SimplePassive<br>[![AppVeyor][appveyor-img]][appveyor-url] [![Patreon][patreon-img]][patreon-url] [![PayPal][paypal-img]][paypal-url] [![Discord][discord-img]][discord-url]
+# SimplePassive<br>[![GitHub Actions][actions-img]][actions-url] [![Patreon][patreon-img]][patreon-url] [![PayPal][paypal-img]][paypal-url] [![Discord][discord-img]][discord-url]
 
 SimplePassive is a resource for FiveM that allows you to use a Passive Mode like feature just like in GTA Online.
 
@@ -10,8 +10,8 @@ It has multiple configurable features that you can configure and use, like:
 
 ## Download
 
-* [GitHub](https://github.com/justalemon/SimplePassive/releases)
-* [AppVeyor](https://ci.appveyor.com/project/justalemon/simplepassive) (experimental)
+* [GitHub Releases](https://github.com/justalemon/SimplePassive/releases)
+* [GitHub Actions](https://github.com/justalemon/SimplePassive/actions) (experimental versions)
 
 ## Installation
 
@@ -23,8 +23,8 @@ By default, SimplePassive does not allows users to enable or disable passive mod
 
 Feel free to check out the [wiki](https://github.com/justalemon/SimplePassive/wiki) for a list of Commands, Convars and Exports.
 
-[appveyor-img]: https://img.shields.io/appveyor/ci/justalemon/simplepassive.svg?label=appveyor
-[appveyor-url]: https://ci.appveyor.com/project/justalemon/simplepassive
+[actions-img]: https://img.shields.io/github/actions/workflow/status/justalemon/SimplePassive/main.yml?branch=master&label=actions
+[actions-url]: https://github.com/justalemon/SimplePassive/actions
 [patreon-img]: https://img.shields.io/badge/support-patreon-FF424D.svg
 [patreon-url]: https://www.patreon.com/lemonchan
 [paypal-img]: https://img.shields.io/badge/support-paypal-0079C1.svg
