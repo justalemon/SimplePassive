@@ -183,6 +183,12 @@ function HandleCollisions()
             SetAlpha(otherVehicle, alpha)
             SetAlpha(otherHooked, alpha)
 
+            if debug then
+                DrawDebugMarker(otherPed)
+                DrawDebugMarker(otherVehicle)
+                DrawDebugMarker(otherHooked)
+            end
+
             if shouldDisableCollisions then
                 if otherVehicle and IsPedInVehicle(otherVehicle, localPed, false) and
                     GetPedInVehicleSeat(otherVehicle, -1) ~= localPed then
@@ -200,12 +206,6 @@ function HandleCollisions()
                 DisableCollisionsThisFrame(localHooked, otherPed)
                 DisableCollisionsThisFrame(localHooked, otherVehicle)
                 DisableCollisionsThisFrame(localHooked, otherHooked)
-
-                if debug then
-                    DrawDebugMarker(otherPed)
-                    DrawDebugMarker(otherVehicle)
-                    DrawDebugMarker(otherHooked)
-                end
 
                 -- luacheck: ignore 113
                 DisableCamCollisionForEntity(otherPed)
