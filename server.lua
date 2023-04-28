@@ -2,6 +2,8 @@
 Activations = {}
 -- The activations that override the dictionary above.
 Overrides = {}
+-- The last time the player changed it's own activation.
+LastChange = {}
 
 function GetPlayer(playerSrc)
     -- do this as it might be passed as an int from C#
@@ -15,6 +17,11 @@ function GetPlayer(playerSrc)
     else
         return nil
     end
+end
+
+function IsInCooldown(player)
+    local lastChange = LastChange[player]
+    return lastChange ~= nil and lastChange + GetConvarInt("simplepassive_cooldown", 0) > GetGameTimer()
 end
 
 function GetPlayerActivation(playerSrc)
@@ -122,7 +129,7 @@ function SetPassiveSelf(activation)
         return false
     end
 
-    if not IsPlayerAceAllowed(player, "simplepassive.changeself") then
+    if not IsPlayerAceAllowed(player, "simplepassive.changeself") or IsInCooldown() then
         return
     end
 
@@ -208,9 +215,15 @@ function OnToggleCommand(source, _, _)
         return
     end
 
+    if IsInCooldown(player) then
+        print("You need to wait a bit before changing your passive mode activation again")
+        return
+    end
+
     local opposite = not GetPlayerActivation(player)
     Activations[player] = opposite
     TriggerClientEvent("simplepassive:activationChanged", -1, player, opposite)
+    LastChange[player] = GetGameTimer()
     print("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's activation to " .. tostring(opposite))
 end
 
