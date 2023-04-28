@@ -166,7 +166,8 @@ function HandleCollisions()
             local shouldDisableCollisions = otherActivation or localActivation
 
             if shouldDisableCollisions then
-                if otherVehicle and IsPedInVehicle(otherVehicle, localPed, false) and GetPedInVehicleSeat(otherVehicle, -1) ~= localPed then
+                if otherVehicle and IsPedInVehicle(otherVehicle, localPed, false) and
+                    GetPedInVehicleSeat(otherVehicle, -1) ~= localPed then
                     goto continue
                 end
 
@@ -198,13 +199,16 @@ function HandleCollisions()
                     DrawDebugMarker(otherHooked)
                 end
 
+                -- luacheck: ignore 113
                 DisableCamCollisionForEntity(otherPed)
 
                 if otherVehicle then
+                    -- luacheck: ignore 113
                     DisableCamCollisionForEntity(otherVehicle)
                 end
 
                 if otherHooked then
+                    -- luacheck: ignore 113
                     DisableCamCollisionForEntity(otherHooked)
                 end
             end
@@ -265,7 +269,7 @@ function OnDoCleanup(player)
     Activations[player] = nil
 end
 
-function OnPrintTickCommand(source, args, raw)
+function OnPrintTickCommand(_, _, _)
     if GetConvarInt("simplepassive_debug", 0) ~= 0 then
         PrintCollisionChanges = true
     end

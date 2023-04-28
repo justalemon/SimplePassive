@@ -107,7 +107,7 @@ function OnPlayerInitialized()
         local otherPlayer = GetPlayer(otherPlayerSrc)
 
         if otherPlayer ~= nil then
-            TriggerClientEvent("simplepassive:activationChanged", player, otherPlayer, GetPlayerActivation(otherPlayer));
+            TriggerClientEvent("simplepassive:activationChanged", player, otherPlayer, GetPlayerActivation(otherPlayer))
         end
     end
 
@@ -136,7 +136,7 @@ function SetPassiveSelf(activation)
     Debug("Player " .. GetPlayerName(player) .. " (" .. player .. ") set it's own activation to " .. activation)
 end
 
-function OnOverrideCommand(source, args, raw)
+function OnOverrideCommand(_, args, _)
     if #args < 2 then
         print("You need to specify the Player ID and desired Activation!")
         return
@@ -159,7 +159,7 @@ function OnOverrideCommand(source, args, raw)
     SetPlayerOverride(player, activation)
 end
 
-function OnClearCommand(source, args, raw)
+function OnClearCommand(_, args, _)
     if args[1] == nil then
         Debug("You need to specify the ID of a Player!")
         return
@@ -179,7 +179,7 @@ function OnClearCommand(source, args, raw)
     end
 end
 
-function OnOverridesCommand(source, args, raw)
+function OnOverridesCommand(_, _, _)
     if #Overrides == 0 then
         print("There are no Passive Mode Overrides in place.")
         return
@@ -190,7 +190,7 @@ function OnOverridesCommand(source, args, raw)
     end
 end
 
-function OnToggleCommand(source, args, raw)
+function OnToggleCommand(source, _, _)
     local player = GetPlayer(source)
 
     if player == nil then
