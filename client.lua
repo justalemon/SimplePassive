@@ -12,19 +12,19 @@ function GetHookedVehicle(vehicle)
         return
     end
 
-    local hasTrailer, trailer = GetVehicleTrailerVehicle(vehicle)
-    if hasTrailer then
+    local _, trailer = GetVehicleTrailerVehicle(vehicle)
+    if trailer ~= 0 then
         return trailer
     end
 
-    local hasHooked, hooked = GetVehicleAttachedToCargobob(vehicle)
-    if hasHooked then
-        return hooked
+    local towed = GetEntityAttachedToTowTruck(vehicle)
+    if towed ~= 0 then
+        return towed
     end
 
-    local hasTowed, towed = GetEntityAttachedToTowTruck(vehicle)
-    if hasTowed then
-        return towed
+    local hooked = GetVehicleAttachedToCargobob(vehicle)
+    if hooked ~= 0 then
+        return hooked
     end
 
     return 0
