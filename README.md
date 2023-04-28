@@ -19,7 +19,7 @@ In your **resources** directory, create a folder called **simplepassive** and ex
 
 ## Usage
 
-By default, SimplePassive does not allows users to enable or disable passive mode. You need to authorize it via the `simplepassive.changeself` ACL permission. Then, passive mode can be toggled via the /passivetoggle command.
+By default, SimplePassive does not allows users to enable or disable passive mode. You need to authorize it via the `simplepassive.changeself` ACL permission (you can allow everyone with `add_ace builtin.everyone simplepassive.changeself allow`). Then, passive mode can be toggled via the /passivetoggle command.
 
 Feel free to check out the [wiki](https://github.com/justalemon/SimplePassive/wiki) for a list of Commands, Convars and Exports.
 
