@@ -22,6 +22,7 @@ jobs:
       - run: pip install https://github.com/justalemon/Collei/archive/master.zip
       - run: python -m collei natives fivem.lua cfxlua --lists gtav fivem
       - uses: lunarmodules/luacheck@v1.1.0
+      - run: rm fivem.lua
       - run: rm -r dist/simplepassive || true && mkdir -p dist/simplepassive && cp *.lua dist/simplepassive
       - uses: actions/upload-artifact@v3
         with:
