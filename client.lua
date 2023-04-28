@@ -8,7 +8,7 @@ LastVehicle = nil
 LastHooked = nil
 
 function GetHookedVehicle(vehicle)
-    if not DoesEntityExist(vehicle) and not IsEntityAVehicle(vehicle) then
+    if vehicle == 0 or not IsEntityAVehicle(vehicle) then
         return
     end
 
@@ -31,7 +31,7 @@ function GetHookedVehicle(vehicle)
 end
 
 function DrawDebugMarker(entity)
-    if not DoesEntityExist(entity) or not IsEntityOnScreen(entity) then
+    if entity == 0 or not IsEntityOnScreen(entity) then
         return
     end
 
@@ -45,6 +45,10 @@ function DrawDebugMarker(entity)
 end
 
 function DisableCollisionsThisFrame(one, two)
+    if one == 0 or two == 0 then
+        return
+    end
+
     SetEntityNoCollisionEntity(one, two, true)
     SetEntityNoCollisionEntity(two, one, true)
 
@@ -54,6 +58,10 @@ function DisableCollisionsThisFrame(one, two)
 end
 
 function SetAlpha(entity, alpha)
+    if entity == 0 then
+        return
+    end
+
     if alpha >= 255 then
         ResetEntityAlpha(entity)
     else
