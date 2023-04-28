@@ -107,7 +107,7 @@ function OnPlayerInitialized()
         local otherPlayer = GetPlayer(otherPlayerSrc)
 
         if otherPlayer ~= nil then
-            TriggerClientEvent("simplepassive:activationChanged", player, otherPlayer, GetPlayerActivation(otherPlayer));
+            TriggerClientEvent("simplepassive:activationChanged", player, otherPlayer, GetPlayerActivation(otherPlayer))
         end
     end
 

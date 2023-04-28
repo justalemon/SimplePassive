@@ -166,7 +166,8 @@ function HandleCollisions()
             local shouldDisableCollisions = otherActivation or localActivation
 
             if shouldDisableCollisions then
-                if otherVehicle and IsPedInVehicle(otherVehicle, localPed, false) and GetPedInVehicleSeat(otherVehicle, -1) ~= localPed then
+                if otherVehicle and IsPedInVehicle(otherVehicle, localPed, false) and
+                    GetPedInVehicleSeat(otherVehicle, -1) ~= localPed then
                     goto continue
                 end
 
