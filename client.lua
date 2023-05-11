@@ -128,9 +128,9 @@ function HandleCollisions()
             end
         end
 
-        DisablePlayerFiring(localPlayer, localActivation and disableCombat)
-
         if localActivation and disableCombat then
+            DisablePlayerFiring(localPlayer, true)
+
             DisableControlAction(0, 45, true) -- INPUT_RELOAD
             DisableControlAction(0, 263, true) -- INPUT_MELEE_ATTACK1
             DisableControlAction(0, 264, true) -- INPUT_MELEE_ATTACK2
