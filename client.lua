@@ -104,6 +104,7 @@ function HandleCollisions()
         local localActivation = GetLocalPlayerActivation()
 
         local debug = GetConvarInt("simplepassive_debug", 0) ~= 0
+        local shadowAlpha = GetConvarInt("simplepassive_alpha", 200)
 
         local setInvincible = GetConvarInt("simplepassive_makeinvincible", 0) ~= 0
         local disableCombat = GetConvarInt("simplepassive_disablecombat", 0) ~= 0
@@ -168,7 +169,7 @@ function HandleCollisions()
             local alpha = 255
 
             if shouldDisableCollisions and not GetIsTaskActive(otherPed, 2) and (otherVehicle == 0 or otherVehicle ~= localVehicle) then
-                alpha = GetConvarInt("simplepassive_alpha", 200)
+                alpha = shadowAlpha
             end
 
             SetAlpha(otherPed, alpha)
