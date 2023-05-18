@@ -168,7 +168,8 @@ function HandleCollisions()
 
             local alpha = 255
 
-            if shouldDisableCollisions and not GetIsTaskActive(otherPed, 2) and (otherVehicle == 0 or otherVehicle ~= localVehicle) then
+            if shouldDisableCollisions and not GetIsTaskActive(otherPed, 2) and
+                    (otherVehicle == 0 or otherVehicle ~= localVehicle) then
                 alpha = shadowAlpha
             end
 
